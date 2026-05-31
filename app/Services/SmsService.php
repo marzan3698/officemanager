@@ -31,8 +31,13 @@ class SmsService
                 ]
             ]);
 
-            // Assuming a successful request returns JSON or contains "Ok"
-            $success = $response->successful() && !str_contains(strtolower($response->body()), 'error');
+            $responseData = $response->json();
+            $success = false;
+            
+            if ($response->successful() && is_array($responseData) && count($responseData) > 0) {
+                $status = strtoupper($responseData[0]['status'] ?? '');
+                $success = ($status === 'SENT' || $status === 'SUCCESS');
+            }
             
             SmsLog::create([
                 'recipient_mobile' => $mobile,
@@ -88,17 +93,31 @@ class SmsService
                 'token' => $setting->api_key,
                 'smsdata' => $smsData
             ]);
-            $success = $response->successful() && !str_contains(strtolower($response->body()), 'error');
+            $responseData = $response->json();
+            $globalSuccess = false;
             
-            foreach ($mobiles as $mobile) {
+            if ($response->successful() && is_array($responseData) && count($responseData) > 0) {
+                // Determine success based on the first item or overall
+                $status = strtoupper($responseData[0]['status'] ?? '');
+                $globalSuccess = ($status === 'SENT' || $status === 'SUCCESS');
+            }
+            
+            foreach ($mobiles as $index => $mobile) {
+                // Try to get specific status if available, else fallback to global
+                $specificStatus = $globalSuccess;
+                if (isset($responseData[$index])) {
+                    $status = strtoupper($responseData[$index]['status'] ?? '');
+                    $specificStatus = ($status === 'SENT' || $status === 'SUCCESS');
+                }
+                
                 SmsLog::create([
                     'recipient_mobile' => $mobile,
                     'message' => $message,
-                    'status' => $success ? 'sent' : 'failed',
+                    'status' => $specificStatus ? 'sent' : 'failed',
                     'response' => $response->body(),
                     'sent_at' => now(),
                 ]);
-                $results[$mobile] = $success;
+                $results[$mobile] = $specificStatus;
             }
         } catch (\Exception $e) {
             Log::error('SMS Send Bulk Error: ' . $e->getMessage());

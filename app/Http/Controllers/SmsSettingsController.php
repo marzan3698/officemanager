@@ -25,6 +25,20 @@ class SmsSettingsController extends Controller
         ]);
         
         $validated['is_active'] = $request->has('is_active');
+        $apiKey = $request->api_key;
+        
+        if ($validated['is_active'] && !empty($apiKey)) {
+            $response = \Illuminate\Support\Facades\Http::get('https://api.bdbulksms.net/api.php', [
+                'token' => $apiKey,
+                'balance' => ''
+            ]);
+            
+            if (str_contains(strtolower($response->body()), 'error') || str_contains(strtolower($response->body()), 'invalid token')) {
+                return back()->with('error', 'অকার্যকর (Invalid) API Token! দয়া করে সঠিক টোকেন দিন।');
+            }
+        } elseif ($validated['is_active']) {
+            return back()->with('error', 'API Token ছাড়া SMS সক্রিয় করা যাবে না।');
+        }
         
         $setting = SmsSetting::first();
         if ($setting) {
