@@ -57,7 +57,11 @@ class AdminSalaryController extends Controller
             'proof_file' => $validated['proof_file'] ?? null,
         ]);
         
-        $smsService->salaryNotification($employee, $log);
+        $smsService->triggerEvent('payment_made', $employee->mobile, [
+            'name' => $employee->name,
+            'amount' => $log->net_salary,
+            'ref' => $log->payment_ref ?? 'Salary'
+        ]);
         
         return back()->with('success', 'বেতন পরিশোধ করা হয়েছে');
     }
@@ -74,7 +78,11 @@ class AdminSalaryController extends Controller
             ]);
             $employee = User::find($log->employee_id);
             if ($employee) {
-                $smsService->salaryNotification($employee, $log);
+                $smsService->triggerEvent('payment_made', $employee->mobile, [
+                    'name' => $employee->name,
+                    'amount' => $log->net_salary,
+                    'ref' => 'Salary'
+                ]);
             }
         }
         

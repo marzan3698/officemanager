@@ -19,13 +19,20 @@ class SmsService
         }
 
         try {
-            $response = Http::get('https://api.greenweb.com.bd/api.php', [
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json'
+            ])->post('https://api.bdbulksms.net/api.php?json', [
                 'token' => $setting->api_key,
-                'to' => $mobile,
-                'message' => $message,
+                'smsdata' => [
+                    [
+                        'to' => $mobile,
+                        'message' => $message
+                    ]
+                ]
             ]);
 
-            $success = str_contains($response->body(), 'Ok');
+            // Assuming a successful request returns JSON or contains "Ok"
+            $success = $response->successful() && !str_contains(strtolower($response->body()), 'error');
             
             SmsLog::create([
                 'recipient_mobile' => $mobile,
@@ -42,20 +49,61 @@ class SmsService
         }
     }
 
+    public function triggerEvent(string $eventName, string $mobile, array $data = []): bool
+    {
+        $template = \App\Models\SmsTemplate::where('event', $eventName)->where('is_active', true)->first();
+        if (!$template) {
+            return false;
+        }
+
+        $message = $template->message;
+        foreach ($data as $key => $value) {
+            $message = str_replace('{' . $key . '}', $value, $message);
+        }
+
+        return $this->send($mobile, $message);
+    }
+
     public function sendBulk(array $mobiles, string $message): array
     {
         $results = [];
-        foreach ($mobiles as $mobile) {
-            $results[$mobile] = $this->send($mobile, $message);
+        // Optional optimization: Send all numbers in one single request using 'smsdata' array
+        $setting = SmsSetting::first();
+        if (!$setting || !$setting->is_active || empty($setting->api_key) || empty($mobiles)) {
+            return $results;
         }
-        return $results;
-    }
-
-    public function salaryNotification(User $employee, SalaryLog $salary): void
-    {
-        // Simple translation for demo (in production use Carbon locale)
-        $message = "প্রিয় {$employee->name}, আপনার {$salary->month} মাসের বেতন {$salary->net_salary} টাকা পরিশোধ করা হয়েছে। -অফিস ম্যানেজার";
         
-        $this->send($employee->mobile, $message);
+        $smsData = [];
+        foreach ($mobiles as $mobile) {
+            $smsData[] = [
+                'to' => $mobile,
+                'message' => $message
+            ];
+        }
+
+        try {
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json'
+            ])->post('https://api.bdbulksms.net/api.php?json', [
+                'token' => $setting->api_key,
+                'smsdata' => $smsData
+            ]);
+            $success = $response->successful() && !str_contains(strtolower($response->body()), 'error');
+            
+            foreach ($mobiles as $mobile) {
+                SmsLog::create([
+                    'recipient_mobile' => $mobile,
+                    'message' => $message,
+                    'status' => $success ? 'sent' : 'failed',
+                    'response' => $response->body(),
+                    'sent_at' => now(),
+                ]);
+                $results[$mobile] = $success;
+            }
+        } catch (\Exception $e) {
+            Log::error('SMS Send Bulk Error: ' . $e->getMessage());
+        }
+
+        return $results;
     }
 }

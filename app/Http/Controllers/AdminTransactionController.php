@@ -48,7 +48,17 @@ class AdminTransactionController extends Controller
             $validated['invoice_file'] = $path;
         }
 
-        Transaction::create($validated);
+        $transaction = Transaction::create($validated);
+        $transaction->load('employee');
+        
+        if ($transaction->type === 'payment') {
+            // Trigger SMS
+            app(\App\Services\SmsService::class)->triggerEvent('payment_made', $transaction->employee->mobile, [
+                'name' => $transaction->employee->name,
+                'amount' => $transaction->amount,
+                'ref' => $transaction->id
+            ]);
+        }
         
         return redirect('/admin/transactions')->with('success', 'লেনদেন যোগ করা হয়েছে');
     }

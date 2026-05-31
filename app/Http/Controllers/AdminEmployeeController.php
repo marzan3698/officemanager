@@ -42,7 +42,13 @@ class AdminEmployeeController extends Controller
             $validated['profile_image'] = $path;
         }
 
-        User::create($validated);
+        $employee = User::create($validated);
+        
+        // Trigger SMS
+        app(\App\Services\SmsService::class)->triggerEvent('new_employee', $employee->mobile, [
+            'name' => $employee->name,
+            'password' => $employee->login_id
+        ]);
         
         return redirect('/admin/employees')->with('success', 'কর্মী যোগ করা হয়েছে');
     }

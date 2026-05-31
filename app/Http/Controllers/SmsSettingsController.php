@@ -13,7 +13,8 @@ class SmsSettingsController extends Controller
     {
         $setting = SmsSetting::first() ?? new SmsSetting();
         $logs = SmsLog::latest()->limit(20)->get();
-        return view('admin.settings.sms', compact('setting', 'logs'));
+        $templates = \App\Models\SmsTemplate::all();
+        return view('admin.settings.sms', compact('setting', 'logs', 'templates'));
     }
 
     public function update(Request $request)
@@ -31,6 +32,16 @@ class SmsSettingsController extends Controller
             $setting->update($validated);
         } else {
             SmsSetting::create($validated);
+        }
+        
+        // Handle SMS Events Templates update
+        if ($request->has('templates')) {
+            foreach ($request->templates as $event => $data) {
+                \App\Models\SmsTemplate::where('event', $event)->update([
+                    'is_active' => isset($data['is_active']) && $data['is_active'] == '1',
+                    'message' => $data['message'] ?? '',
+                ]);
+            }
         }
         
         return back()->with('success', 'SMS সেটিংস আপডেট করা হয়েছে');

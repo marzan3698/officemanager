@@ -41,7 +41,15 @@ class AdminTaskController extends Controller
         ]);
 
         $validated['assigned_by'] = auth()->id();
-        Task::create($validated);
+        $task = Task::create($validated);
+        $task->load('employee', 'project');
+        
+        // Trigger SMS
+        app(\App\Services\SmsService::class)->triggerEvent('task_assigned', $task->employee->mobile, [
+            'name' => $task->employee->name,
+            'task_name' => $task->title,
+            'project_name' => $task->project ? $task->project->name : 'N/A'
+        ]);
         
         return redirect('/admin/tasks')->with('success', 'কাজ তৈরি করা হয়েছে');
     }

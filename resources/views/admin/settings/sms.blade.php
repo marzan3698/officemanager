@@ -28,7 +28,40 @@
                 <label for="is_active">SMS সক্রিয় করুন</label>
             </div>
             
-            <button type="submit" class="btn btn-primary">সেভ করুন</button>
+            <hr style="margin: 24px 0; border: none; border-top: 1px solid var(--border);">
+            <h2 class="mb-4" style="font-size: 16px;">SMS ইভেন্ট সেটিংস</h2>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 16px;">নিচের ইভেন্টগুলোর জন্য কাস্টম ম্যাসেজ সেট করতে পারবেন। ভ্যারিয়েবলগুলো {second_bracket} এর মাঝে লিখুন।</p>
+            
+            @foreach($templates as $template)
+                <div style="background: #F9FAFB; border: 1px solid var(--border); padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+                    <div class="d-flex justify-between align-center mb-2">
+                        <div style="font-weight: 600;">
+                            @if($template->event == 'new_employee') নতুন কর্মী যোগ
+                            @elseif($template->event == 'task_assigned') কাজ প্রদান
+                            @elseif($template->event == 'payment_made') পেমেন্ট/বেতন প্রদান
+                            @elseif($template->event == 'task_reminder') টাস্ক রিমাইন্ডার
+                            @else {{ $template->event }} @endif
+                        </div>
+                        <div class="d-flex align-center">
+                            <input type="hidden" name="templates[{{ $template->event }}][is_active]" value="0">
+                            <input type="checkbox" name="templates[{{ $template->event }}][is_active]" value="1" id="event_{{ $template->event }}" {{ $template->is_active ? 'checked' : '' }} style="width: auto; margin: 0 8px 0 0;">
+                            <label for="event_{{ $template->event }}" style="font-size: 12px; margin: 0;">সক্রিয়</label>
+                        </div>
+                    </div>
+                    <textarea name="templates[{{ $template->event }}][message]" rows="3" style="font-size: 14px; margin-bottom: 8px;">{{ $template->message }}</textarea>
+                    
+                    <div style="font-size: 11px; color: var(--text-secondary);">
+                        <strong>উপলব্ধ ভ্যারিয়েবল:</strong> 
+                        @if($template->event == 'new_employee') {name}, {password}
+                        @elseif($template->event == 'task_assigned') {name}, {task_name}, {project_name}
+                        @elseif($template->event == 'payment_made') {name}, {amount}, {ref}
+                        @elseif($template->event == 'task_reminder') {name}, {task_name}
+                        @endif
+                    </div>
+                </div>
+            @endforeach
+
+            <button type="submit" class="btn btn-primary mt-4">সেভ করুন</button>
         </form>
     </x-card>
     
