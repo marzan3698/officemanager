@@ -29,9 +29,7 @@
             <label>মাসিক বেতন (টাকা)</label>
             <input type="number" name="salary" required>
             
-            <label>লগইন আইডি (যেমন: EMP004)</label>
-            <input type="text" name="login_id" required>
-            
+
             <label>প্রোফাইল ছবি (ঐচ্ছিক)</label>
             <input type="file" name="profile_image" accept="image/*">
             

@@ -24,12 +24,18 @@ class AdminEmployeeController extends Controller
             'name' => 'required|string',
             'mobile' => 'required|string|size:11',
             'salary' => 'required|numeric',
-            'login_id' => 'required|string|unique:users',
             'profile_image' => 'nullable|image|max:2048',
         ]);
         
         $validated['role'] = 'employee';
         $validated['is_active'] = $request->has('is_active');
+        
+        // Auto-generate numeric login_id
+        do {
+            $loginId = (string) mt_rand(10000, 99999);
+        } while (User::where('login_id', $loginId)->exists());
+        
+        $validated['login_id'] = $loginId;
 
         if ($request->hasFile('profile_image')) {
             $path = $request->file('profile_image')->store('profiles', 'public');
