@@ -73,21 +73,21 @@
     <div class="section-title">কুইক ফিচারসমূহ</div>
     <div class="quick-features-scroll mb-4">
         <div class="quick-feature-card">
-            <div style="font-size: 20px;">👥</div>
+            <img src="{{ asset('images/icons/employee_icon_1780216702010.png') }}" style="width: 32px; height: 32px; object-fit: contain;">
             <div>
                 <div style="font-size: 12px; color: var(--text-secondary);">মোট কর্মী</div>
                 <div style="font-size: 16px; font-weight: 600;">{{ $totalEmployees }} জন</div>
             </div>
         </div>
         <div class="quick-feature-card">
-            <div style="font-size: 20px;">⏳</div>
+            <img src="{{ asset('images/icons/pending_icon_1780217054686.png') }}" style="width: 32px; height: 32px; object-fit: contain;">
             <div>
                 <div style="font-size: 12px; color: var(--text-secondary);">বকেয়া পেমেন্ট</div>
                 <div style="font-size: 16px; font-weight: 600;">{{ $unpaidCount }} টি</div>
             </div>
         </div>
         <div class="quick-feature-card">
-            <div style="font-size: 20px;">✅</div>
+            <img src="{{ asset('images/icons/task_icon_1780216728764.png') }}" style="width: 32px; height: 32px; object-fit: contain;">
             <div>
                 <div style="font-size: 12px; color: var(--text-secondary);">সম্পন্ন কাজ</div>
                 <div style="font-size: 16px; font-weight: 600;">{{ $completedTasks }} টি</div>

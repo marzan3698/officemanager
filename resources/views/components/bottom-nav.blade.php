@@ -23,10 +23,14 @@
         gap: 4px;
     }
     .nav-item .icon {
-        font-size: 20px;
+        width: 24px;
+        height: 24px;
+        margin-bottom: 2px;
+        object-fit: contain;
     }
     .nav-item.active {
-        color: var(--primary);
+        color: #D42B6A;
+        font-weight: 600;
     }
     
     .nav-fab-container {
@@ -40,14 +44,12 @@
     .nav-fab {
         width: 56px;
         height: 56px;
-        background: linear-gradient(135deg, var(--primary) 0%, #3F83F8 100%);
+        background: linear-gradient(135deg, #9D1C5B 0%, #D42B6A 100%);
         border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 24px;
-        color: white;
-        box-shadow: 0 4px 12px rgba(26, 86, 219, 0.4);
+        box-shadow: 0 4px 12px rgba(212, 43, 106, 0.4);
         border: 4px solid var(--surface);
         margin-bottom: 4px;
         transition: transform 0.2s;
@@ -65,48 +67,48 @@
 <div class="bottom-nav">
     @if(Auth::user()->role === 'admin')
         <a href="/admin/dashboard" class="nav-item {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-            <span class="icon">🏠</span>
+            <img src="{{ asset('images/icons/home_icon_1780217068884.png') }}" class="icon">
             <span>হোম</span>
         </a>
         <a href="/admin/employees" class="nav-item {{ request()->is('admin/employees*') ? 'active' : '' }}">
-            <span class="icon">👥</span>
+            <img src="{{ asset('images/icons/employee_icon_1780216702010.png') }}" class="icon">
             <span>কর্মীরা</span>
         </a>
         
         <a href="/calculator" class="nav-fab-container">
-            <div class="nav-fab">🧮</div>
-            <div class="nav-fab-label" style="{{ request()->is('calculator') ? 'color: var(--primary);' : '' }}">হিসাব</div>
+            <div class="nav-fab"><img src="{{ asset('images/icons/accounting_icon_1780217086495.png') }}" style="width: 32px; height: 32px; object-fit: contain;"></div>
+            <div class="nav-fab-label" style="{{ request()->is('calculator') ? 'color: #D42B6A; font-weight: 600;' : '' }}">হিসাব</div>
         </a>
 
         <a href="/admin/transactions" class="nav-item {{ request()->is('admin/transactions*') ? 'active' : '' }}">
-            <span class="icon">💰</span>
+            <img src="{{ asset('images/icons/transaction_icon_1780216715077.png') }}" class="icon">
             <span>লেনদেন</span>
         </a>
         <a href="/admin/invoices" class="nav-item {{ request()->is('admin/invoices*') ? 'active' : '' }}">
-            <span class="icon">🧾</span>
+            <img src="{{ asset('images/icons/invoice_icon_1780216787465.png') }}" class="icon">
             <span>ইনভয়েস</span>
         </a>
     @else
         <a href="/employee/dashboard" class="nav-item {{ request()->is('employee/dashboard') ? 'active' : '' }}">
-            <span class="icon">🏠</span>
+            <img src="{{ asset('images/icons/home_icon_1780217068884.png') }}" class="icon">
             <span>হোম</span>
         </a>
         <a href="/employee/transactions" class="nav-item {{ request()->is('employee/transactions*') ? 'active' : '' }}">
-            <span class="icon">💰</span>
+            <img src="{{ asset('images/icons/transaction_icon_1780216715077.png') }}" class="icon">
             <span>লেনদেন</span>
         </a>
         
         <a href="/calculator" class="nav-fab-container">
-            <div class="nav-fab">🧮</div>
-            <div class="nav-fab-label" style="{{ request()->is('calculator') ? 'color: var(--primary);' : '' }}">হিসাব</div>
+            <div class="nav-fab"><img src="{{ asset('images/icons/accounting_icon_1780217086495.png') }}" style="width: 32px; height: 32px; object-fit: contain;"></div>
+            <div class="nav-fab-label" style="{{ request()->is('calculator') ? 'color: #D42B6A; font-weight: 600;' : '' }}">হিসাব</div>
         </a>
 
         <a href="/employee/invoices" class="nav-item {{ request()->is('employee/invoices*') ? 'active' : '' }}">
-            <span class="icon">🧾</span>
+            <img src="{{ asset('images/icons/invoice_icon_1780216787465.png') }}" class="icon">
             <span>ইনভয়েস</span>
         </a>
         <a href="/employee/profile" class="nav-item {{ request()->is('employee/profile') ? 'active' : '' }}">
-            <span class="icon">👤</span>
+            <img src="{{ asset('images/icons/employee_icon_1780216702010.png') }}" class="icon">
             <span>প্রোফাইল</span>
         </a>
     @endif
