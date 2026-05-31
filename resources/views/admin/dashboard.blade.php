@@ -13,10 +13,14 @@
             </div>
         </div>
         <div class="d-flex gap-2">
-            <a href="/admin/settings/sms" style="width: 36px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; margin-right: 8px; text-decoration: none;">⚙️</a>
+            <a href="/admin/settings/sms" style="padding: 0 12px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 18px; display: flex; align-items: center; gap: 6px; color: white; text-decoration: none; font-size: 13px; font-weight: 500;">
+                <span>⚙️</span> সেটিংস
+            </a>
             <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                 @csrf
-                <button type="submit" style="width: 36px; height: 36px; background: rgba(255,255,255,0.2); border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer;">🚪</button>
+                <button type="submit" style="padding: 0 12px; height: 36px; background: rgba(255,255,255,0.2); border: none; border-radius: 18px; display: flex; align-items: center; gap: 6px; color: white; cursor: pointer; font-size: 13px; font-weight: 500;">
+                    <span>🚪</span> লগআউট
+                </button>
             </form>
         </div>
     </div>
@@ -52,9 +56,9 @@
             <div class="service-icon">📊</div>
             <div class="service-label">রিপোর্ট</div>
         </a>
-        <a href="/admin/settings/sms" class="service-item">
-            <div class="service-icon">⚙️</div>
-            <div class="service-label">সেটিংস</div>
+        <a href="/admin/projects" class="service-item">
+            <div class="service-icon">📁</div>
+            <div class="service-label">প্রজেক্ট</div>
         </a>
         <a href="/admin/invoices" class="service-item">
             <div class="service-icon">🧾</div>
@@ -63,10 +67,6 @@
         <a href="/admin/incomes" class="service-item">
             <div class="service-icon">💵</div>
             <div class="service-label">আয়</div>
-        </a>
-        <a href="/admin/projects" class="service-item">
-            <div class="service-icon">📁</div>
-            <div class="service-label">প্রজেক্ট</div>
         </a>
     </div>
 
