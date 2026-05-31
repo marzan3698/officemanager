@@ -82,8 +82,8 @@
         <div class="quick-feature-card">
             <img src="{{ asset('images/icons/pending_icon_1780217054686.png') }}" style="width: 32px; height: 32px; object-fit: contain;">
             <div>
-                <div style="font-size: 12px; color: var(--text-secondary);">বকেয়া পেমেন্ট</div>
-                <div style="font-size: 16px; font-weight: 600;">{{ $unpaidCount }} টি</div>
+                <div style="font-size: 12px; color: var(--text-secondary);">চলমান কাজ</div>
+                <div style="font-size: 16px; font-weight: 600;">{{ $pendingTasksCount }} টি</div>
             </div>
         </div>
         <div class="quick-feature-card">

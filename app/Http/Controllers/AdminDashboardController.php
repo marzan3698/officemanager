@@ -21,6 +21,7 @@ class AdminDashboardController extends Controller
             ->whereMonth('updated_at', now()->month)
             ->whereYear('updated_at', now()->year)
             ->count();
+        $pendingTasksCount = Task::whereIn('status', ['pending', 'in_progress'])->count();
 
         $totalTransactionExpense = Transaction::where('type', 'payment')->sum('amount');
         $totalSalaryExpense = SalaryLog::where('status', 'paid')->sum('net_salary');
@@ -32,7 +33,7 @@ class AdminDashboardController extends Controller
         $pendingExpenses = Expense::with('employee')->where('status', 'pending')->latest()->get();
 
         return view('admin.dashboard', compact(
-            'totalEmployees', 'salaryDue', 'unpaidCount', 'completedTasks',
+            'totalEmployees', 'salaryDue', 'unpaidCount', 'completedTasks', 'pendingTasksCount',
             'recentTransactions', 'recentTasks', 'totalExpense', 'pendingExpenses'
         ));
     }

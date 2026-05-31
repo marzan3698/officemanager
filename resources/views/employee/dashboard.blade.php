@@ -20,56 +20,84 @@
         </div>
     </div>
     
-    <div style="background: rgba(255,255,255,0.15); padding: 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px);">
-        <div>
-            <div style="font-size: 13px; opacity: 0.9; margin-bottom: 4px;">এই মাসের বেতন ({{ now()->format('F Y') }})</div>
-            <div style="font-size: 24px; font-weight: 700;">
-                {{ $salary ? number_format($salary->net_salary) : number_format($employee->salary) }}৳
+    <div style="background: rgba(255,255,255,0.15); padding: 16px; border-radius: 16px; display: flex; flex-direction: column; gap: 16px; backdrop-filter: blur(10px);">
+        <div class="d-flex justify-between align-center">
+            <div>
+                <div style="font-size: 11px; opacity: 0.9; margin-bottom: 2px;">এই মাসের বেতন ({{ now()->format('F Y') }})</div>
+                <div style="font-size: 18px; font-weight: 700;">
+                    {{ $salary ? number_format($salary->net_salary) : number_format($employee->salary) }}৳
+                </div>
+            </div>
+            <div>
+                @if(!$urgentTask)
+                    @if($salary && $salary->status === 'paid')
+                        <div style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 12px; font-size: 12px;">পরিশোধিত</div>
+                    @else
+                        <div style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 12px; font-size: 12px;">বকেয়া</div>
+                    @endif
+                @endif
             </div>
         </div>
-        <div>
-            @if(isset($urgentTask))
-                <div style="position: relative; width: 50px; height: 50px; text-align: center; border-radius: 50%; background: conic-gradient(var(--primary) calc(var(--progress, 0) * 1%), rgba(255,255,255,0.2) 0); display: flex; align-items: center; justify-content: center;">
-                    <div style="width: 42px; height: 42px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column;">
-                        <span id="task_hours_left" style="font-size: 11px; font-weight: 700; color: var(--primary);">--</span>
-                        <span style="font-size: 8px; color: var(--text-secondary);">hr left</span>
-                    </div>
+
+        @if(isset($urgentTask))
+        <div style="background: rgba(255,255,255,0.2); border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 16px;">
+            <div style="position: relative; width: 60px; height: 60px; text-align: center; border-radius: 50%; background: conic-gradient(var(--primary) calc(var(--progress, 0) * 1%), rgba(255,255,255,0.2) 0); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <div style="width: 52px; height: 52px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                    <span id="task_percentage" style="font-size: 14px; font-weight: 700; color: var(--primary);">0%</span>
                 </div>
-                <div style="font-size: 10px; margin-top: 4px; text-align: center; color: var(--text-secondary); max-width: 60px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $urgentTask->title }}</div>
-                
-                <script>
-                    function updateTaskProgress() {
-                        const dueDate = new Date('{{ $urgentTask->due_date }}').getTime();
-                        const createdDate = new Date('{{ $urgentTask->created_at }}').getTime();
-                        const totalTime = dueDate - createdDate;
-                        
-                        setInterval(() => {
-                            const now = new Date().getTime();
-                            const timeLeft = dueDate - now;
-                            
-                            if (timeLeft > 0) {
-                                const hoursLeft = Math.floor(timeLeft / (1000 * 60 * 60));
-                                document.getElementById('task_hours_left').innerText = hoursLeft;
-                                
-                                const progress = ((totalTime - timeLeft) / totalTime) * 100;
-                                document.querySelector('[style*="conic-gradient"]').style.setProperty('--progress', progress);
-                            } else {
-                                document.getElementById('task_hours_left').innerText = "0";
-                                document.querySelector('[style*="conic-gradient"]').style.setProperty('--progress', 100);
-                                document.querySelector('[style*="conic-gradient"]').style.background = 'conic-gradient(var(--danger) 100%, rgba(255,255,255,0.2) 0)';
-                            }
-                        }, 1000);
-                    }
-                    updateTaskProgress();
-                </script>
-            @else
-                @if($salary && $salary->status === 'paid')
-                    <div style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 12px; font-size: 12px;">পরিশোধিত</div>
-                @else
-                    <div style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 12px; font-size: 12px;">বকেয়া</div>
+            </div>
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #fff;">{{ Str::limit($urgentTask->title, 40) }}</div>
+                <div id="live_timer" style="font-size: 11px; color: #ffebee; font-weight: 600; margin-bottom: 6px;">হিসাব করা হচ্ছে...</div>
+                @if($urgentTask->penalty_amount > 0)
+                <div style="font-size: 11px; color: #ffcdd2; background: rgba(0,0,0,0.1); padding: 6px; border-radius: 6px;">
+                    মিস করলে জরিমানা: <span style="font-weight: 700;">{{ $urgentTask->penalty_amount }}৳</span><br>
+                    তখন প্রাপ্ত বেতন: <span style="font-weight: 700;">{{ ($salary ? $salary->net_salary : $employee->salary) - $urgentTask->penalty_amount }}৳</span>
+                </div>
                 @endif
-            @endif
+            </div>
         </div>
+        
+        <script>
+            const en2bn = (num) => String(num).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+
+            function updateTaskProgress() {
+                const dueDate = new Date('{{ $urgentTask->due_date }}').getTime();
+                const createdDate = new Date('{{ $urgentTask->created_at }}').getTime();
+                const totalTime = dueDate - createdDate;
+                
+                setInterval(() => {
+                    const now = new Date().getTime();
+                    const timeLeft = dueDate - now;
+                    
+                    if (timeLeft > 0) {
+                        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                        
+                        let timeString = '';
+                        if (days > 0) timeString += en2bn(days) + ' দিন ';
+                        if (hours > 0 || days > 0) timeString += en2bn(hours) + ' ঘণ্টা ';
+                        timeString += en2bn(minutes) + ' মিনিট ' + en2bn(seconds) + ' সেকেন্ড';
+                        
+                        document.getElementById('live_timer').innerText = timeString;
+                        
+                        const progress = ((totalTime - timeLeft) / totalTime) * 100;
+                        document.querySelector('[style*="conic-gradient"]').style.setProperty('--progress', progress);
+                        document.getElementById('task_percentage').innerText = en2bn(Math.round(progress)) + '%';
+                    } else {
+                        document.getElementById('live_timer').innerText = "সময় শেষ!";
+                        document.querySelector('[style*="conic-gradient"]').style.setProperty('--progress', 100);
+                        document.querySelector('[style*="conic-gradient"]').style.background = 'conic-gradient(var(--danger) 100%, rgba(255,255,255,0.2) 0)';
+                        document.getElementById('task_percentage').innerText = '100%';
+                        document.getElementById('task_percentage').style.color = 'var(--danger)';
+                    }
+                }, 1000);
+            }
+            updateTaskProgress();
+        </script>
+        @endif
     </div>
 </div>
 
