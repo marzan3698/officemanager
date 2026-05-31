@@ -51,7 +51,7 @@ class AdminTaskController extends Controller
         app(\App\Services\SmsService::class)->triggerEvent('task_assigned', $task->employee->mobile, [
             'name' => $task->employee->name,
             'task_name' => $task->title,
-            'project_name' => $task->project ? $task->project->name : 'N/A'
+            'project_name' => $task->project ? $task->project->name : 'নির্দিষ্ট নয়'
         ]);
         
         return redirect('/admin/tasks')->with('success', 'কাজ তৈরি করা হয়েছে');

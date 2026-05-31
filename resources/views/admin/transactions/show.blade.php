@@ -45,12 +45,12 @@
         <div style="display: flex; flex-direction: column; gap: 12px;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <span style="font-size: 13px; color: var(--text-secondary);">কর্মী</span>
-                <span style="font-size: 14px; font-weight: 600;">{{ optional($transaction->employee)->name ?? 'N/A' }}</span>
+                <span style="font-size: 14px; font-weight: 600;">{{ optional($transaction->employee)->name ?? 'অজ্ঞাত' }}</span>
             </div>
             
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <span style="font-size: 13px; color: var(--text-secondary);">মোবাইল</span>
-                <span style="font-size: 14px; font-weight: 500;">{{ optional($transaction->employee)->mobile ?? 'N/A' }}</span>
+                <span style="font-size: 14px; font-weight: 500;">{{ optional($transaction->employee)->mobile ?? 'অজ্ঞাত' }}</span>
             </div>
             
             <div style="display: flex; justify-content: space-between; align-items: center;">
