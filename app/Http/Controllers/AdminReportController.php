@@ -27,25 +27,6 @@ class AdminReportController extends Controller
         
         $totalExpense = $transactionExpense + $salaryExpense + $invoiceExpense;
         
-        $incomes = CompanyIncome::with('employee')->whereBetween('income_date', [$startDate, $endDate])->latest('income_date')->get();
-        
-        $employees = \App\Models\User::where('role', 'employee')->get();
-
-        return view('admin.report.index', compact('month', 'totalIncome', 'totalExpense', 'incomes', 'transactionExpense', 'salaryExpense', 'invoiceExpense', 'employees'));
-    }
-
-    public function storeIncome(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => 'required|string',
-            'amount' => 'required|numeric|min:0',
-            'income_date' => 'required|date',
-            'employee_id' => 'nullable|exists:users,id'
-        ]);
-        
-        $validated['created_by'] = auth()->id();
-        CompanyIncome::create($validated);
-        
-        return back()->with('success', 'ইনকাম যোগ করা হয়েছে');
+        return view('admin.report.index', compact('month', 'totalIncome', 'totalExpense', 'transactionExpense', 'salaryExpense', 'invoiceExpense'));
     }
 }

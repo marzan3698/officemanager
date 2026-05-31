@@ -41,7 +41,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::post('/settings/reset-data', [SmsSettingsController::class, 'resetData']);
     Route::patch('/expenses/{expense}/status', [App\Http\Controllers\AdminExpenseController::class, 'update']);
     Route::get('/report', [App\Http\Controllers\AdminReportController::class, 'index']);
-    Route::post('/report/income', [App\Http\Controllers\AdminReportController::class, 'storeIncome']);
+    
+    // Incomes
+    Route::get('/incomes', [App\Http\Controllers\AdminIncomeController::class, 'index']);
+    Route::post('/incomes', [App\Http\Controllers\AdminIncomeController::class, 'store']);
     
     // Invoices
     Route::get('/invoices', [\App\Http\Controllers\AdminInvoiceController::class, 'index']);
