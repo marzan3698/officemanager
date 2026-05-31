@@ -1,9 +1,8 @@
-const CACHE_NAME = 'office-manager-v1';
+const CACHE_NAME = 'office-manager-v2';
 const urlsToCache = [
-  '/',
-  '/manifest.json',
   '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/icons/icon-512x512.png',
+  '/manifest.json'
 ];
 
 self.addEventListener('install', event => {
@@ -13,17 +12,27 @@ self.addEventListener('install', event => {
         return cache.addAll(urlsToCache);
       })
   );
+  self.skipWaiting();
 });
 
 self.addEventListener('fetch', event => {
+  // We only want to handle GET requests
+  if (event.request.method !== 'GET') return;
+
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        if (response) {
-          return response;
-        }
-        return fetch(event.request);
-      })
+    fetch(event.request).then(response => {
+      // If network works, return the response
+      return response;
+    }).catch(async () => {
+      // If network fails, look in the cache
+      const cache = await caches.open(CACHE_NAME);
+      const cachedResponse = await cache.match(event.request);
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      // If not in cache and network fails, we can't do much.
+      // The browser will show offline page.
+    })
   );
 });
 
@@ -40,4 +49,5 @@ self.addEventListener('activate', event => {
       );
     })
   );
+  self.clients.claim();
 });

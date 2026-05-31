@@ -335,11 +335,12 @@
 
         // Check if already installed / standalone
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        const isInstalledInStorage = localStorage.getItem('pwa_installed') === 'true';
         
         // Detect iOS
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-        if (!isStandalone) {
+        if (!isStandalone && !isInstalledInStorage) {
             // Show modal forcing installation
             installModal.classList.add('show');
             
@@ -364,6 +365,7 @@
                 if (outcome === 'accepted') {
                     console.log('User accepted the A2HS prompt');
                     installModal.classList.remove('show');
+                    localStorage.setItem('pwa_installed', 'true');
                 }
                 deferredPrompt = null;
             });
@@ -372,6 +374,7 @@
         window.addEventListener('appinstalled', () => {
             // Hide modal when installed
             installModal.classList.remove('show');
+            localStorage.setItem('pwa_installed', 'true');
             console.log('PWA was installed');
         });
     </script>
