@@ -52,7 +52,7 @@
         <div style="padding-top: 60px;">
             <div class="d-flex justify-between align-center">
                 <h1 style="margin: 0 0 4px 0; font-size: 24px;">{{ $employee->name }}</h1>
-                <a href="/admin/employees/{{ $employee->id }}/edit" style="background: #F3F4F6; color: #374151; padding: 6px 12px; font-size: 13px; font-weight: 600; border-radius: 8px; text-decoration: none;">এডিট</a>
+                <button type="button" onclick="openEditModal()" style="background: #F3F4F6; color: #374151; padding: 6px 12px; font-size: 13px; font-weight: 600; border-radius: 8px; border: none; cursor: pointer; font-family: inherit;">এডিট</button>
             </div>
             <div style="color: var(--text-secondary); font-size: 14px; margin-bottom: 16px;">
                 📞 {{ $employee->mobile }} &nbsp;•&nbsp; 🆔 {{ $employee->login_id }}
@@ -204,8 +204,79 @@
     </div>
 </div>
 
+<!-- Edit Modal -->
+<div id="editModal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(2px);">
+    <div style="background: white; border-radius: 20px; width: 100%; max-width: 400px; max-height: 90vh; overflow-y: auto; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+        <div class="d-flex justify-between align-center mb-4">
+            <h3 style="margin: 0; font-size: 18px;">প্রোফাইল আপডেট</h3>
+            <button type="button" onclick="closeEditModal()" style="background: transparent; border: none; font-size: 20px; cursor: pointer; color: var(--text-secondary);">✕</button>
+        </div>
+        
+        <form method="POST" action="/admin/employees/{{ $employee->id }}" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            
+            <input type="hidden" name="role" value="employee">
+            
+            <div style="margin-bottom: 16px; text-align: center;">
+                <label for="profile_image" style="cursor: pointer; display: inline-block; position: relative;">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; background: #F3F4F6; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: bold; color: var(--primary); border: 2px dashed #CBD5E1;">
+                        @if($employee->profile_image)
+                            <img src="{{ asset('storage/' . $employee->profile_image) }}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+                        @else
+                            {{ mb_substr($employee->name, 0, 1) }}
+                        @endif
+                    </div>
+                    <div style="position: absolute; bottom: 0; right: 0; background: var(--primary); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; border: 2px solid white;">📷</div>
+                </label>
+                <input type="file" name="profile_image" id="profile_image" style="display: none;" accept="image/*" onchange="previewImage(event)">
+                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">ছবি পরিবর্তন করতে ক্লিক করুন</div>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;">নাম</label>
+                <input type="text" name="name" value="{{ $employee->name }}" required style="width: 100%; padding: 10px; border: 1px solid #E2E8F0; border-radius: 8px; font-family: inherit;">
+            </div>
+            
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;">মোবাইল</label>
+                <input type="text" name="mobile" value="{{ $employee->mobile }}" required minlength="11" maxlength="11" style="width: 100%; padding: 10px; border: 1px solid #E2E8F0; border-radius: 8px; font-family: inherit;">
+            </div>
+            
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;">মাসিক বেতন</label>
+                <input type="number" name="salary" value="{{ $employee->salary }}" required min="0" style="width: 100%; padding: 10px; border: 1px solid #E2E8F0; border-radius: 8px; font-family: inherit;">
+            </div>
+            
+            <div style="margin-bottom: 24px;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" name="is_active" value="1" {{ $employee->is_active ? 'checked' : '' }} style="width: 18px; height: 18px; cursor: pointer;">
+                    <span style="font-size: 14px; font-weight: 600;">অ্যাকাউন্ট সক্রিয়</span>
+                </label>
+            </div>
+            
+            <button type="submit" style="width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; font-family: inherit; font-size: 15px; cursor: pointer;">আপডেট করুন</button>
+        </form>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    function openEditModal() {
+        document.getElementById('editModal').style.display = 'flex';
+    }
+    
+    function closeEditModal() {
+        document.getElementById('editModal').style.display = 'none';
+    }
+    
+    function previewImage(event) {
+        if(event.target.files.length > 0){
+            var src = URL.createObjectURL(event.target.files[0]);
+            var previewContainer = event.target.previousElementSibling.firstElementChild;
+            previewContainer.innerHTML = '<img src="' + src + '" style="width: 100%; height: 100%; object-fit: cover;">';
+        }
+    }
     function switchTab(tabName) {
         document.querySelectorAll('.profile-tab').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
