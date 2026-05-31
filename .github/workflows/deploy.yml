@@ -33,27 +33,40 @@ jobs:
       - name: Install Composer Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader --no-dev
 
-      - name: Sync Files to cPanel
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.CPANEL_SSH_KEY }}
-          ARGS: "-rltgoDzvO"
-          SOURCE: "./"
-          REMOTE_HOST: ${{ secrets.CPANEL_HOST }}
-          REMOTE_USER: ${{ secrets.CPANEL_USERNAME }}
-          REMOTE_PORT: ${{ secrets.CPANEL_PORT }}
-          TARGET: "/home/${{ secrets.CPANEL_USERNAME }}/office-manager"
-          EXCLUDE: "/node_modules/, /.git/, /.github/, /.env, /storage/, /tests/"
+      - name: Create Deployment Archive
+        run: |
+          tar -czf /tmp/deploy.tar.gz \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='node_modules' \
+            --exclude='.env' \
+            --exclude='tests' \
+            .
 
-      - name: Execute Remote Artisan Commands
-        uses: appleboy/ssh-action@master
+      - name: Upload to cPanel via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.CPANEL_HOST }}
+          username: ${{ secrets.CPANEL_USERNAME }}
+          key: ${{ secrets.CPANEL_SSH_KEY }}
+          port: ${{ secrets.CPANEL_PORT }}
+          source: "/tmp/deploy.tar.gz"
+          target: "/home/${{ secrets.CPANEL_USERNAME }}"
+          strip_components: 2
+
+      - name: Extract & Setup on Server
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.CPANEL_HOST }}
           username: ${{ secrets.CPANEL_USERNAME }}
           key: ${{ secrets.CPANEL_SSH_KEY }}
           port: ${{ secrets.CPANEL_PORT }}
           script: |
-            cd /home/${{ secrets.CPANEL_USERNAME }}/office-manager
+            cd /home/${{ secrets.CPANEL_USERNAME }}
+            mkdir -p office-manager
+            tar -xzf deploy.tar.gz -C office-manager
+            rm -f deploy.tar.gz
+            cd office-manager
             php artisan optimize:clear
             php artisan migrate --force
             php artisan storage:link
