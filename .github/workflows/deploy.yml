@@ -33,28 +33,7 @@ jobs:
       - name: Install Composer Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader --no-dev
 
-      - name: Create Deployment Archive
-        run: |
-          tar -czf /tmp/deploy.tar.gz \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='node_modules' \
-            --exclude='.env' \
-            --exclude='tests' \
-            .
-
-      - name: Upload to cPanel via SCP
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.CPANEL_HOST }}
-          username: ${{ secrets.CPANEL_USERNAME }}
-          key: ${{ secrets.CPANEL_SSH_KEY }}
-          port: ${{ secrets.CPANEL_PORT }}
-          source: "/tmp/deploy.tar.gz"
-          target: "/home/${{ secrets.CPANEL_USERNAME }}"
-          strip_components: 2
-
-      - name: Extract & Setup on Server
+      - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.CPANEL_HOST }}
@@ -64,9 +43,19 @@ jobs:
           script: |
             cd /home/${{ secrets.CPANEL_USERNAME }}
             mkdir -p office-manager
-            tar -xzf deploy.tar.gz -C office-manager
-            rm -f deploy.tar.gz
             cd office-manager
-            php artisan optimize:clear
-            php artisan migrate --force
-            php artisan storage:link
+            
+            # Clone or pull latest code
+            if [ -d ".git" ]; then
+              git pull origin main
+            else
+              git clone https://github.com/marzan3698/officemanager.git .
+            fi
+            
+            # Install composer dependencies
+            composer install --no-interaction --optimize-autoloader --no-dev 2>/dev/null || echo "Composer not found, skipping"
+            
+            # Run artisan commands
+            php artisan optimize:clear 2>/dev/null || true
+            php artisan migrate --force 2>/dev/null || true
+            php artisan storage:link 2>/dev/null || true
