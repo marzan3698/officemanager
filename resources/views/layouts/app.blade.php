@@ -219,76 +219,6 @@
             font-weight: 600;
             margin-bottom: 12px;
             color: var(--text-primary);
-        }
-        
-        /* PWA Install Modal Styles */
-        #pwa-install-modal {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: var(--primary);
-            z-index: 9999;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            padding: 24px;
-            text-align: center;
-        }
-        #pwa-install-modal.show {
-            display: flex;
-        }
-        .pwa-icon {
-            width: 96px;
-            height: 96px;
-            border-radius: 24px;
-            background: white;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-            padding: 12px;
-        }
-        .pwa-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        .pwa-desc {
-            font-size: 16px;
-            opacity: 0.9;
-            margin-bottom: 32px;
-            line-height: 1.5;
-            max-width: 300px;
-        }
-        .pwa-btn {
-            background: white;
-            color: var(--primary);
-            border: none;
-            padding: 16px 32px;
-            border-radius: 30px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-            max-width: 300px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transition: transform 0.2s;
-        }
-        .pwa-btn:active {
-            transform: scale(0.95);
-        }
-        #ios-instructions {
-            display: none;
-            background: rgba(255,255,255,0.1);
-            padding: 16px;
-            border-radius: 12px;
-            margin-top: 20px;
-            text-align: left;
-            font-size: 14px;
-            line-height: 1.6;
-        }
     </style>
 </head>
 <body style="margin: 0; background-color: var(--surface);">
@@ -300,34 +230,18 @@
         @endif
     </div>
 
-    <!-- PWA Install Modal -->
-    <div id="pwa-install-modal">
-        <img src="/icons/icon-192x192.png" alt="App Icon" class="pwa-icon">
-        <div class="pwa-title">Shantikotha Office</div>
-        <div class="pwa-desc">সর্বোত্তম অভিজ্ঞতার জন্য আমাদের অ্যাপটি ইনস্টল করুন।</div>
-        
-        <button id="pwa-install-btn" class="pwa-btn">অ্যাপ ইনস্টল করুন</button>
-        
-        <div id="ios-instructions">
-            <strong>iOS ব্যবহারকারীদের জন্য:</strong><br>
-            ১. নিচের <strong>Share</strong> আইকনে ট্যাপ করুন।<br>
-            ২. <strong>"Add to Home Screen"</strong> নির্বাচন করুন।
-        </div>
-    </div>
-
     <script>
         // Register Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
-                    .then(reg => console.log('SW Registered', reg))
+                    .then(reg => console.log('SW Registered'))
                     .catch(err => console.error('SW Error', err));
             });
         }
 
         // PWA Install Logic
         let deferredPrompt;
-        const installModal = document.getElementById('pwa-install-modal');
         const installBtn = document.getElementById('pwa-install-btn');
         const iosInstructions = document.getElementById('ios-instructions');
 
@@ -339,41 +253,35 @@
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
         if (!isStandalone && !isInstalledInStorage) {
-            // Show modal forcing installation
-            installModal.classList.add('show');
-            
-            if (isIOS) {
-                // iOS doesn't support the install prompt API
-                installBtn.style.display = 'none';
+            if (installBtn && !isIOS) {
+                installBtn.style.display = 'flex';
+            }
+            if (iosInstructions && isIOS) {
                 iosInstructions.style.display = 'block';
             }
         }
 
         window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent Chrome 67 and earlier from automatically showing the prompt
             e.preventDefault();
-            // Stash the event so it can be triggered later.
             deferredPrompt = e;
             
-            installBtn.addEventListener('click', async () => {
-                // Show the install prompt
-                deferredPrompt.prompt();
-                // Wait for the user to respond to the prompt
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    console.log('User accepted the A2HS prompt');
-                    installModal.classList.remove('show');
-                    localStorage.setItem('pwa_installed', 'true');
-                }
-                deferredPrompt = null;
-            });
+            if (installBtn) {
+                installBtn.addEventListener('click', async () => {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        installBtn.style.display = 'none';
+                        localStorage.setItem('pwa_installed', 'true');
+                    }
+                    deferredPrompt = null;
+                });
+            }
         });
         
         window.addEventListener('appinstalled', () => {
-            // Hide modal when installed
-            installModal.classList.remove('show');
+            if (installBtn) installBtn.style.display = 'none';
+            if (iosInstructions) iosInstructions.style.display = 'none';
             localStorage.setItem('pwa_installed', 'true');
-            console.log('PWA was installed');
         });
     </script>
 </body>
