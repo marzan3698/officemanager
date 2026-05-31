@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="d-flex gap-2">
-            <a href="/admin/settings/sms" style="padding: 0 12px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 18px; display: flex; align-items: center; gap: 6px; color: white; text-decoration: none; font-size: 13px; font-weight: 500;">
+            <a href="/admin/settings" style="padding: 0 12px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 18px; display: flex; align-items: center; gap: 6px; color: white; text-decoration: none; font-size: 13px; font-weight: 500;">
                 <span>⚙️</span> সেটিংস
             </a>
             <form method="POST" action="{{ route('logout') }}" style="margin: 0;">

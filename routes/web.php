@@ -35,10 +35,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/salary', [AdminSalaryController::class, 'index']);
     Route::post('/salary/pay/{employee}', [AdminSalaryController::class, 'pay']);
     Route::post('/salary/pay-all', [AdminSalaryController::class, 'payAll']);
+    Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index']);
+    Route::get('/settings/general', [\App\Http\Controllers\SettingsController::class, 'general']);
+    Route::post('/settings/reset-data', [\App\Http\Controllers\SettingsController::class, 'resetData']);
     Route::get('/settings/sms', [SmsSettingsController::class, 'index']);
     Route::post('/settings/sms', [SmsSettingsController::class, 'update']);
     Route::post('/settings/sms/test', [SmsSettingsController::class, 'test']);
-    Route::post('/settings/reset-data', [SmsSettingsController::class, 'resetData']);
     Route::patch('/expenses/{expense}/status', [App\Http\Controllers\AdminExpenseController::class, 'update']);
     Route::get('/report', [App\Http\Controllers\AdminReportController::class, 'index']);
     

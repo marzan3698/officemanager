@@ -21,7 +21,6 @@ class SmsSettingsController extends Controller
     {
         $validated = $request->validate([
             'api_key' => 'nullable|string',
-            'sender_id' => 'nullable|string',
             'is_active' => 'boolean',
         ]);
         
@@ -57,23 +56,5 @@ class SmsSettingsController extends Controller
             return back()->with('success', 'টেস্ট SMS সফলভাবে পাঠানো হয়েছে');
         }
         return back()->with('error', 'SMS পাঠানো ব্যর্থ হয়েছে');
-    }
-
-    public function resetData(Request $request)
-    {
-        $request->validate(['confirm_text' => 'required|in:RESET']);
-
-        // Delete all non-admin data
-        \App\Models\Transaction::truncate();
-        \App\Models\Task::truncate();
-        \App\Models\SalaryLog::truncate();
-        \App\Models\SmsLog::truncate();
-        \App\Models\Expense::truncate();
-        \App\Models\CompanyIncome::truncate();
-        
-        // Delete all employees (non-admin users)
-        \App\Models\User::where('role', 'employee')->delete();
-        
-        return back()->with('success', 'সকল ডাটা সফলভাবে রিসেট করা হয়েছে। শুধুমাত্র অ্যাডমিন একাউন্ট রয়ে গেছে।');
     }
 }

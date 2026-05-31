@@ -20,9 +20,6 @@
             <label>Green Web SMS API Key</label>
             <input type="text" name="api_key" value="{{ $setting->api_key }}">
             
-            <label>Sender ID (Optional)</label>
-            <input type="text" name="sender_id" value="{{ $setting->sender_id }}">
-            
             <div class="d-flex align-center mb-4 mt-4">
                 <input type="checkbox" name="is_active" id="is_active" {{ $setting->is_active ? 'checked' : '' }} style="width: auto; margin-right: 8px; margin-bottom: 0;">
                 <label for="is_active">SMS সক্রিয় করুন</label>
@@ -93,22 +90,5 @@
             <div style="font-size: 11px; color: var(--text-secondary);">{{ $log->sent_at->format('d M, Y h:i A') }}</div>
         </x-card>
     @endforeach
-
-    <!-- Danger Zone: Reset Data -->
-    <div style="margin-top: 32px; border-top: 2px solid var(--danger); padding-top: 20px;">
-        <h2 style="font-size: 16px; color: var(--danger); margin-bottom: 8px;">⚠️ ডেঞ্জার জোন</h2>
-        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
-            এখানে ক্লিক করলে সাইটের সকল ডাটা (কর্মী, লেনদেন, কাজ, বেতন, ইনভয়েস, ইনকাম, SMS লগ) সম্পূর্ণ মুছে যাবে। 
-            <strong>শুধুমাত্র অ্যাডমিন একাউন্ট থাকবে।</strong> এই কাজ অপরিবর্তনীয়!
-        </p>
-        <x-card style="border: 2px solid var(--danger); background: #FDF2F2;">
-            <form method="POST" action="/admin/settings/reset-data" id="reset-form">
-                @csrf
-                <label style="font-size: 13px; color: var(--danger); font-weight: 600;">নিশ্চিত করতে নিচে "RESET" লিখুন</label>
-                <input type="text" name="confirm_text" placeholder="RESET লিখুন" required style="border-color: var(--danger);">
-                <button type="submit" class="btn" style="background: var(--danger); color: white;" onclick="return confirm('আপনি কি সত্যিই সকল ডাটা মুছে ফেলতে চান? এটি পূর্বাবস্থায় ফেরানো যাবে না!')">🗑️ সকল ডাটা রিসেট করুন</button>
-            </form>
-        </x-card>
-    </div>
 </div>
 @endsection
