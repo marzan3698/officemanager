@@ -56,4 +56,30 @@ class AdminTaskController extends Controller
         
         return redirect('/admin/tasks')->with('success', 'কাজ তৈরি করা হয়েছে');
     }
+
+    public function edit(Task $task)
+    {
+        $employees = User::where('role', 'employee')->where('is_active', true)->get();
+        $projects = \App\Models\Project::where('status', 'active')->get();
+        return view('admin.tasks.edit', compact('task', 'employees', 'projects'));
+    }
+
+    public function update(Request $request, Task $task)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'employee_id' => 'required|exists:users,id',
+            'due_date' => 'required|date',
+            'penalty_amount' => 'nullable|numeric|min:0',
+            'project_id' => 'nullable|exists:projects,id',
+            'status' => 'required|in:pending,in_progress,completed',
+        ]);
+
+        $validated['penalty_amount'] = $request->input('penalty_amount', 0);
+
+        $task->update($validated);
+        
+        return redirect('/admin/tasks')->with('success', 'কাজ আপডেট করা হয়েছে');
+    }
 }

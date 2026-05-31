@@ -27,7 +27,10 @@
     @foreach($tasks as $task)
         <x-card>
             <div class="d-flex justify-between align-center mb-2">
-                <div style="font-weight: 600; font-size: 16px;">{{ $task->title }}</div>
+                <div class="d-flex align-center gap-2">
+                    <div style="font-weight: 600; font-size: 16px;">{{ $task->title }}</div>
+                    <a href="/admin/tasks/{{ $task->id }}/edit" style="color: var(--primary); text-decoration: none; font-size: 11px; background: rgba(212, 43, 106, 0.1); padding: 2px 8px; border-radius: 12px; font-weight: 600;">✏️ এডিট</a>
+                </div>
                 <div>
                     @if($task->status === 'pending')
                         <x-badge type="warning">অপেক্ষমান</x-badge>
