@@ -27,9 +27,11 @@ class AdminReportController extends Controller
         
         $totalExpense = $transactionExpense + $salaryExpense + $invoiceExpense;
         
-        $incomes = CompanyIncome::whereBetween('income_date', [$startDate, $endDate])->latest('income_date')->get();
+        $incomes = CompanyIncome::with('employee')->whereBetween('income_date', [$startDate, $endDate])->latest('income_date')->get();
+        
+        $employees = \App\Models\User::where('role', 'employee')->get();
 
-        return view('admin.report.index', compact('month', 'totalIncome', 'totalExpense', 'incomes', 'transactionExpense', 'salaryExpense', 'invoiceExpense'));
+        return view('admin.report.index', compact('month', 'totalIncome', 'totalExpense', 'incomes', 'transactionExpense', 'salaryExpense', 'invoiceExpense', 'employees'));
     }
 
     public function storeIncome(Request $request)
@@ -37,7 +39,8 @@ class AdminReportController extends Controller
         $validated = $request->validate([
             'title' => 'required|string',
             'amount' => 'required|numeric|min:0',
-            'income_date' => 'required|date'
+            'income_date' => 'required|date',
+            'employee_id' => 'nullable|exists:users,id'
         ]);
         
         $validated['created_by'] = auth()->id();

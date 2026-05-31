@@ -16,4 +16,9 @@ class CompanyIncome extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function employee()
+    {
+        return $this->belongsTo(User::class, 'employee_id');
+    }
 }
