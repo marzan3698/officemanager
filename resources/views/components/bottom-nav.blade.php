@@ -82,9 +82,9 @@
             <span class="icon">💰</span>
             <span>লেনদেন</span>
         </a>
-        <a href="/admin/tasks" class="nav-item {{ request()->is('admin/tasks*') ? 'active' : '' }}">
-            <span class="icon">✅</span>
-            <span>কাজ</span>
+        <a href="/admin/invoices" class="nav-item {{ request()->is('admin/invoices*') ? 'active' : '' }}">
+            <span class="icon">🧾</span>
+            <span>ইনভয়েস</span>
         </a>
     @else
         <a href="/employee/dashboard" class="nav-item {{ request()->is('employee/dashboard') ? 'active' : '' }}">
@@ -101,9 +101,9 @@
             <div class="nav-fab-label" style="{{ request()->is('calculator') ? 'color: var(--primary);' : '' }}">হিসাব</div>
         </a>
 
-        <a href="/employee/tasks" class="nav-item {{ request()->is('employee/tasks*') ? 'active' : '' }}">
-            <span class="icon">✅</span>
-            <span>কাজ</span>
+        <a href="/employee/invoices" class="nav-item {{ request()->is('employee/invoices*') ? 'active' : '' }}">
+            <span class="icon">🧾</span>
+            <span>ইনভয়েস</span>
         </a>
         <a href="/employee/profile" class="nav-item {{ request()->is('employee/profile') ? 'active' : '' }}">
             <span class="icon">👤</span>
