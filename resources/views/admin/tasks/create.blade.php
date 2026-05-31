@@ -4,7 +4,7 @@
 <div class="header mb-4">
     <div class="d-flex align-center">
         <a href="/admin/tasks" style="margin-right: 16px; font-size: 20px;">⬅</a>
-        <h1>নতুন টাস্ক দিন</h1>
+        <h1>নতুন কাজ দিন</h1>
     </div>
 </div>
 

@@ -32,6 +32,6 @@ class EmployeeTaskController extends Controller
         
         $task->update($validated);
         
-        return back()->with('success', 'টাস্ক স্ট্যাটাস আপডেট করা হয়েছে');
+        return back()->with('success', 'কাজ স্ট্যাটাস আপডেট করা হয়েছে');
     }
 }

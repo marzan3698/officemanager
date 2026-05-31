@@ -40,7 +40,7 @@
 </style>
 
 <div class="header mb-4">
-    <h1>আমার টাস্ক</h1>
+    <h1>আমার কাজ</h1>
 </div>
 
 <div class="content">
@@ -51,7 +51,7 @@
     <div class="mb-4">
         <form method="GET" action="/employee/tasks" class="d-flex">
             <select name="status" onchange="this.form.submit()">
-                <option value="all" {{ $status == 'all' ? 'selected' : '' }}>সব টাস্ক</option>
+                <option value="all" {{ $status == 'all' ? 'selected' : '' }}>সব কাজ</option>
                 <option value="pending" {{ $status == 'pending' ? 'selected' : '' }}>অপেক্ষমান</option>
                 <option value="in_progress" {{ $status == 'in_progress' ? 'selected' : '' }}>চলমান</option>
                 <option value="completed" {{ $status == 'completed' ? 'selected' : '' }}>সম্পন্ন</option>

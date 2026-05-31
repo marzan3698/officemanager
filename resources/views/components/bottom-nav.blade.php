@@ -84,7 +84,7 @@
         </a>
         <a href="/admin/tasks" class="nav-item {{ request()->is('admin/tasks*') ? 'active' : '' }}">
             <span class="icon">✅</span>
-            <span>টাস্ক</span>
+            <span>কাজ</span>
         </a>
     @else
         <a href="/employee/dashboard" class="nav-item {{ request()->is('employee/dashboard') ? 'active' : '' }}">
@@ -103,7 +103,7 @@
 
         <a href="/employee/tasks" class="nav-item {{ request()->is('employee/tasks*') ? 'active' : '' }}">
             <span class="icon">✅</span>
-            <span>টাস্ক</span>
+            <span>কাজ</span>
         </a>
         <a href="/employee/profile" class="nav-item {{ request()->is('employee/profile') ? 'active' : '' }}">
             <span class="icon">👤</span>

@@ -65,7 +65,7 @@
     <div style="margin-top: 32px; border-top: 2px solid var(--danger); padding-top: 20px;">
         <h2 style="font-size: 16px; color: var(--danger); margin-bottom: 8px;">⚠️ ডেঞ্জার জোন</h2>
         <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
-            এখানে ক্লিক করলে সাইটের সকল ডাটা (কর্মী, লেনদেন, টাস্ক, বেতন, ইনভয়েস, ইনকাম, SMS লগ) সম্পূর্ণ মুছে যাবে। 
+            এখানে ক্লিক করলে সাইটের সকল ডাটা (কর্মী, লেনদেন, কাজ, বেতন, ইনভয়েস, ইনকাম, SMS লগ) সম্পূর্ণ মুছে যাবে। 
             <strong>শুধুমাত্র অ্যাডমিন একাউন্ট থাকবে।</strong> এই কাজ অপরিবর্তনীয়!
         </p>
         <x-card style="border: 2px solid var(--danger); background: #FDF2F2;">

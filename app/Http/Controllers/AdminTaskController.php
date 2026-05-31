@@ -41,6 +41,6 @@ class AdminTaskController extends Controller
 
         Task::create($validated);
         
-        return redirect('/admin/tasks')->with('success', 'টাস্ক তৈরি করা হয়েছে');
+        return redirect('/admin/tasks')->with('success', 'কাজ তৈরি করা হয়েছে');
     }
 }

@@ -3,7 +3,7 @@
 @section('content')
 <div class="header mb-4">
     <div class="d-flex justify-between align-center">
-        <h1>টাস্ক ম্যানেজমেন্ট</h1>
+        <h1>কাজ ম্যানেজমেন্ট</h1>
         <a href="/admin/tasks/create" class="btn btn-primary" style="width: auto; padding: 8px 16px; border-radius: 20px;">+ নতুন</a>
     </div>
 </div>
@@ -16,7 +16,7 @@
     <div class="mb-4">
         <form method="GET" action="/admin/tasks" class="d-flex">
             <select name="status" onchange="this.form.submit()">
-                <option value="all" {{ $status == 'all' ? 'selected' : '' }}>সব টাস্ক</option>
+                <option value="all" {{ $status == 'all' ? 'selected' : '' }}>সব কাজ</option>
                 <option value="pending" {{ $status == 'pending' ? 'selected' : '' }}>অপেক্ষমান</option>
                 <option value="in_progress" {{ $status == 'in_progress' ? 'selected' : '' }}>চলমান</option>
                 <option value="completed" {{ $status == 'completed' ? 'selected' : '' }}>সম্পন্ন</option>

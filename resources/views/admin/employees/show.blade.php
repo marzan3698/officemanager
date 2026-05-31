@@ -75,7 +75,7 @@
     <div style="display: flex; border-top: 1px solid #E5E7EB; background: white;">
         <button class="profile-tab active" onclick="switchTab('salary')">বেতন</button>
         <button class="profile-tab" onclick="switchTab('transactions')">লেনদেন</button>
-        <button class="profile-tab" onclick="switchTab('tasks')">টাস্ক</button>
+        <button class="profile-tab" onclick="switchTab('tasks')">কাজ</button>
     </div>
 </div>
 
@@ -190,7 +190,7 @@
             </div>
         </div>
     @empty
-        <div style="text-align: center; padding: 30px; color: var(--text-secondary);">কোনো টাস্ক নেই</div>
+        <div style="text-align: center; padding: 30px; color: var(--text-secondary);">কোনো কাজ নেই</div>
     @endforelse
 </div>
 

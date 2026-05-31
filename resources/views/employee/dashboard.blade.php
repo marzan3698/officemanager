@@ -45,7 +45,7 @@
         </a>
         <a href="/employee/tasks" class="service-item">
             <div class="service-icon">✅</div>
-            <div class="service-label">আমার টাস্ক</div>
+            <div class="service-label">আমার কাজ</div>
         </a>
         <a href="/employee/profile" class="service-item">
             <div class="service-icon">👤</div>
@@ -66,14 +66,14 @@
         <div class="quick-feature-card">
             <div style="font-size: 20px;">📌</div>
             <div>
-                <div style="font-size: 12px; color: var(--text-secondary);">অপেক্ষমান টাস্ক</div>
+                <div style="font-size: 12px; color: var(--text-secondary);">অপেক্ষমান কাজ</div>
                 <div style="font-size: 16px; font-weight: 600;">{{ $activeTasksCount }} টি</div>
             </div>
         </div>
     </div>
 
     <div class="d-flex justify-between align-center mb-2">
-        <div class="section-title" style="margin-bottom: 0;">সাম্প্রতিক টাস্ক</div>
+        <div class="section-title" style="margin-bottom: 0;">সাম্প্রতিক কাজ</div>
         <a href="/employee/tasks" style="font-size: 13px;">সব দেখুন ➔</a>
     </div>
     

@@ -42,7 +42,7 @@
         </a>
         <a href="/admin/tasks" class="service-item">
             <div class="service-icon">✅</div>
-            <div class="service-label">টাস্ক</div>
+            <div class="service-label">কাজ</div>
         </a>
         <a href="/admin/salary" class="service-item">
             <div class="service-icon">💳</div>
@@ -77,7 +77,7 @@
         <div class="quick-feature-card">
             <div style="font-size: 20px;">✅</div>
             <div>
-                <div style="font-size: 12px; color: var(--text-secondary);">সম্পন্ন টাস্ক</div>
+                <div style="font-size: 12px; color: var(--text-secondary);">সম্পন্ন কাজ</div>
                 <div style="font-size: 16px; font-weight: 600;">{{ $completedTasks }} টি</div>
             </div>
         </div>

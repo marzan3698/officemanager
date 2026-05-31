@@ -41,7 +41,7 @@
                 <a href="/admin/employees/{{ $employee->id }}" style="display: flex; justify-content: center; align-items: center; width: 36px; height: 36px; border-radius: 50%; background: #F3F4F6; color: var(--primary); text-decoration: none; transition: background 0.2s;">
                     ➔
                 </a>
-                <form method="POST" action="/admin/employees/{{ $employee->id }}" style="margin: 0;" onsubmit="return confirm('এই কর্মী মুছে ফেলতে চান? তার সকল লেনদেন ও টাস্কও মুছে যাবে।')">
+                <form method="POST" action="/admin/employees/{{ $employee->id }}" style="margin: 0;" onsubmit="return confirm('এই কর্মী মুছে ফেলতে চান? তার সকল লেনদেন ও কাজও মুছে যাবে।')">
                     @csrf
                     @method('DELETE')
                     <button type="submit" style="display: flex; justify-content: center; align-items: center; width: 36px; height: 36px; border-radius: 50%; background: #FDE8E8; color: var(--danger); border: none; cursor: pointer;">
