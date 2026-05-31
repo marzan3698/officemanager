@@ -41,6 +41,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/settings/sms', [SmsSettingsController::class, 'index']);
     Route::post('/settings/sms', [SmsSettingsController::class, 'update']);
     Route::post('/settings/sms/test', [SmsSettingsController::class, 'test']);
+    Route::get('/settings/sms-events', [SmsSettingsController::class, 'events']);
+    Route::post('/settings/sms-events', [SmsSettingsController::class, 'updateEvents']);
     Route::patch('/expenses/{expense}/status', [App\Http\Controllers\AdminExpenseController::class, 'update']);
     Route::get('/report', [App\Http\Controllers\AdminReportController::class, 'index']);
     

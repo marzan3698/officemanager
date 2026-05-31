@@ -28,7 +28,7 @@ class SmsSettingsController extends Controller
         $apiKey = $request->api_key;
         
         if ($validated['is_active'] && !empty($apiKey)) {
-            $response = \Illuminate\Support\Facades\Http::get('https://api.bdbulksms.net/api.php', [
+            $response = \Illuminate\Support\Facades\Http::get('https://api.bdbulksms.net/g_api.php', [
                 'token' => $apiKey,
                 'balance' => ''
             ]);
@@ -47,7 +47,17 @@ class SmsSettingsController extends Controller
             SmsSetting::create($validated);
         }
         
-        // Handle SMS Events Templates update
+        return back()->with('success', 'SMS সেটিংস আপডেট করা হয়েছে');
+    }
+
+    public function events()
+    {
+        $templates = \App\Models\SmsTemplate::all();
+        return view('admin.settings.sms_events', compact('templates'));
+    }
+
+    public function updateEvents(Request $request)
+    {
         if ($request->has('templates')) {
             foreach ($request->templates as $event => $data) {
                 \App\Models\SmsTemplate::where('event', $event)->update([
@@ -57,7 +67,7 @@ class SmsSettingsController extends Controller
             }
         }
         
-        return back()->with('success', 'SMS সেটিংস আপডেট করা হয়েছে');
+        return back()->with('success', 'SMS ইভেন্ট সেটিংস আপডেট করা হয়েছে');
     }
 
     public function test(Request $request, SmsService $smsService)
