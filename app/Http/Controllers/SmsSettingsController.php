@@ -64,11 +64,29 @@ class SmsSettingsController extends Controller
     {
         $request->validate(['mobile' => 'required|string']);
         
+        $setting = \App\Models\SmsSetting::first();
+        if (!$setting || !$setting->is_active || empty($setting->api_key)) {
+            return back()->with('error', 'SMS সেটিংস নিষ্ক্রিয় করা আছে অথবা API Key দেওয়া নেই।');
+        }
+        
         $success = $smsService->send($request->mobile, 'This is a test message from Office Manager');
         
         if ($success) {
             return back()->with('success', 'টেস্ট SMS সফলভাবে পাঠানো হয়েছে');
         }
-        return back()->with('error', 'SMS পাঠানো ব্যর্থ হয়েছে');
+        
+        // Find the latest log to show detailed error
+        $log = \App\Models\SmsLog::where('recipient_mobile', $request->mobile)->latest()->first();
+        $errorMsg = 'SMS পাঠানো ব্যর্থ হয়েছে।';
+        if ($log && $log->response) {
+            $responseData = json_decode($log->response, true);
+            if (is_array($responseData) && isset($responseData[0]['statusmsg'])) {
+                $errorMsg .= ' কারণ: ' . $responseData[0]['statusmsg'];
+            } else {
+                $errorMsg .= ' রেসপন্স: ' . strip_tags($log->response);
+            }
+        }
+        
+        return back()->with('error', $errorMsg);
     }
 }

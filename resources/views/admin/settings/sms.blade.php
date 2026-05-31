@@ -21,7 +21,7 @@
             <input type="text" name="api_key" value="{{ $setting->api_key }}">
             
             <div class="d-flex align-center mb-4 mt-4">
-                <input type="checkbox" name="is_active" id="is_active" {{ $setting->is_active ? 'checked' : '' }} style="width: auto; margin-right: 8px; margin-bottom: 0;">
+                <input type="checkbox" name="is_active" id="is_active" value="1" {{ $setting->is_active ? 'checked' : '' }} style="width: auto; margin-right: 8px; margin-bottom: 0;">
                 <label for="is_active">SMS সক্রিয় করুন</label>
             </div>
             
