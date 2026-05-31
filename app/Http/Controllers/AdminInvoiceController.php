@@ -31,14 +31,15 @@ class AdminInvoiceController extends Controller
             'paid_at' => now(),
         ]);
 
-        // Add to company incomes
-        CompanyIncome::create([
-            'title' => 'ইনভয়েস পেমেন্ট: #' . $invoice->id . ($invoice->client_name ? ' (' . $invoice->client_name . ')' : ''),
+        // Add to company expenses
+        \App\Models\Expense::create([
+            'employee_id' => $invoice->employee_id,
+            'title' => 'ইনভয়েস বিল পেমেন্ট: #' . $invoice->id . ($invoice->client_name ? ' (' . $invoice->client_name . ')' : ''),
             'amount' => $invoice->total_amount,
-            'income_date' => now()->toDateString(),
-            'created_by' => auth()->id(),
+            'status' => 'approved',
+            'payment_ref' => 'Invoice Payment',
         ]);
 
-        return back()->with('success', 'ইনভয়েস পেইড হিসেবে মার্ক করা হয়েছে এবং ইনকামে যুক্ত করা হয়েছে');
+        return back()->with('success', 'ইনভয়েস পেইড হিসেবে মার্ক করা হয়েছে এবং কোম্পানির খরচে যুক্ত করা হয়েছে');
     }
 }

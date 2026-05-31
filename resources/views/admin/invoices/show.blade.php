@@ -62,9 +62,9 @@
         </div>
 
         @if($invoice->status !== 'paid')
-            <form method="POST" action="/admin/invoices/{{ $invoice->id }}/pay" onsubmit="return confirm('আপনি কি নিশ্চিত যে এই ইনভয়েসটির পেমেন্ট গ্রহণ করা হয়েছে? এটি কোম্পানির ইনকামে যুক্ত হবে।')">
+            <form method="POST" action="/admin/invoices/{{ $invoice->id }}/pay" onsubmit="return confirm('আপনি কি নিশ্চিত যে এই ইনভয়েসটি পে করা হয়েছে? এটি কোম্পানির খরচে (Expense) যুক্ত হবে।')">
                 @csrf
-                <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 16px; padding: 14px; border-radius: 12px; font-weight: 600;">পেমেন্ট গ্রহণ করুন</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 16px; padding: 14px; border-radius: 12px; font-weight: 600;">পে করুন</button>
             </form>
         @else
             <div style="text-align: center; color: var(--success); font-weight: 600; background: #DEF7EC; padding: 12px; border-radius: 12px; border: 1px solid #31C48D;">
