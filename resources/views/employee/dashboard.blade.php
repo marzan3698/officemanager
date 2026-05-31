@@ -28,10 +28,46 @@
             </div>
         </div>
         <div>
-            @if($salary && $salary->status === 'paid')
-                <div style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 12px; font-size: 12px;">পরিশোধিত</div>
+            @if(isset($urgentTask))
+                <div style="position: relative; width: 50px; height: 50px; text-align: center; border-radius: 50%; background: conic-gradient(var(--primary) calc(var(--progress, 0) * 1%), rgba(255,255,255,0.2) 0); display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 42px; height: 42px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                        <span id="task_hours_left" style="font-size: 11px; font-weight: 700; color: var(--primary);">--</span>
+                        <span style="font-size: 8px; color: var(--text-secondary);">hr left</span>
+                    </div>
+                </div>
+                <div style="font-size: 10px; margin-top: 4px; text-align: center; color: var(--text-secondary); max-width: 60px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $urgentTask->title }}</div>
+                
+                <script>
+                    function updateTaskProgress() {
+                        const dueDate = new Date('{{ $urgentTask->due_date }}').getTime();
+                        const createdDate = new Date('{{ $urgentTask->created_at }}').getTime();
+                        const totalTime = dueDate - createdDate;
+                        
+                        setInterval(() => {
+                            const now = new Date().getTime();
+                            const timeLeft = dueDate - now;
+                            
+                            if (timeLeft > 0) {
+                                const hoursLeft = Math.floor(timeLeft / (1000 * 60 * 60));
+                                document.getElementById('task_hours_left').innerText = hoursLeft;
+                                
+                                const progress = ((totalTime - timeLeft) / totalTime) * 100;
+                                document.querySelector('[style*="conic-gradient"]').style.setProperty('--progress', progress);
+                            } else {
+                                document.getElementById('task_hours_left').innerText = "0";
+                                document.querySelector('[style*="conic-gradient"]').style.setProperty('--progress', 100);
+                                document.querySelector('[style*="conic-gradient"]').style.background = 'conic-gradient(var(--danger) 100%, rgba(255,255,255,0.2) 0)';
+                            }
+                        }, 1000);
+                    }
+                    updateTaskProgress();
+                </script>
             @else
-                <div style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 12px; font-size: 12px;">বকেয়া</div>
+                @if($salary && $salary->status === 'paid')
+                    <div style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 12px; font-size: 12px;">পরিশোধিত</div>
+                @else
+                    <div style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 12px; font-size: 12px;">বকেয়া</div>
+                @endif
             @endif
         </div>
     </div>

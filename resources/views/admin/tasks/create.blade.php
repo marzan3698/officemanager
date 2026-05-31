@@ -43,8 +43,11 @@
             <label>বিবরণ</label>
             <textarea name="description" rows="3"></textarea>
             
-            <label>শেষ তারিখ</label>
-            <input type="date" name="due_date">
+            <label>শেষ তারিখ ও সময়</label>
+            <input type="datetime-local" name="due_date">
+            
+            <label>পেনাল্টি এমাউন্ট (৳) - ঐচ্ছিক</label>
+            <input type="number" step="0.01" name="penalty_amount" value="0" placeholder="0.00">
             
             <label>স্ট্যাটাস</label>
             <select name="status">

@@ -37,8 +37,11 @@ class AdminTaskController extends Controller
             'description' => 'nullable|string',
             'employee_id' => 'required|exists:users,id',
             'due_date' => 'required|date',
+            'penalty_amount' => 'nullable|numeric|min:0',
             'project_id' => 'nullable|exists:projects,id',
         ]);
+
+        $validated['penalty_amount'] = $request->input('penalty_amount', 0);
 
         $validated['assigned_by'] = auth()->id();
         $task = Task::create($validated);

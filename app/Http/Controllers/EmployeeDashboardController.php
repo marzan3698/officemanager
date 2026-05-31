@@ -27,8 +27,14 @@ class EmployeeDashboardController extends Controller
             ->latest()
             ->get();
             
+        $urgentTask = Task::where('employee_id', $employee->id)
+            ->whereIn('status', ['pending', 'in_progress'])
+            ->whereNotNull('due_date')
+            ->orderBy('due_date', 'asc')
+            ->first();
+            
         $projects = $employee->projects()->where('status', 'active')->get();
             
-        return view('employee.dashboard', compact('employee', 'salary', 'recentTransactions', 'activeTasksCount', 'pendingTasks', 'projects'));
+        return view('employee.dashboard', compact('employee', 'salary', 'recentTransactions', 'activeTasksCount', 'pendingTasks', 'projects', 'urgentTask'));
     }
 }

@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::command('salary:monthly-reminder')->monthlyOn(1, '09:00');
+Schedule::command('task:monitor')->everyMinute();

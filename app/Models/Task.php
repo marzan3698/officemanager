@@ -10,7 +10,9 @@ class Task extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'due_date' => 'date',
+        'due_date' => 'datetime',
+        'is_penalized' => 'boolean',
+        'penalty_amount' => 'decimal:2',
     ];
 
     public function employee(): BelongsTo
