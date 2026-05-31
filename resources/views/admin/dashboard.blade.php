@@ -37,35 +37,35 @@
 <div class="dashboard-overlap-card">
     <div class="service-grid">
         <a href="/admin/employees" class="service-item">
-            <div class="service-icon">👥</div>
+            <div class="service-icon"><img src="{{ asset('images/icons/employee_icon_1780216702010.png') }}" style="width: 100%; height: 100%; object-fit: contain;"></div>
             <div class="service-label">কর্মীরা</div>
         </a>
         <a href="/admin/transactions" class="service-item">
-            <div class="service-icon">💰</div>
+            <div class="service-icon"><img src="{{ asset('images/icons/transaction_icon_1780216715077.png') }}" style="width: 100%; height: 100%; object-fit: contain;"></div>
             <div class="service-label">লেনদেন</div>
         </a>
         <a href="/admin/tasks" class="service-item">
-            <div class="service-icon">✅</div>
+            <div class="service-icon"><img src="{{ asset('images/icons/task_icon_1780216728764.png') }}" style="width: 100%; height: 100%; object-fit: contain;"></div>
             <div class="service-label">কাজ</div>
         </a>
         <a href="/admin/salary" class="service-item">
-            <div class="service-icon">💳</div>
+            <div class="service-icon"><img src="{{ asset('images/icons/salary_icon_1780216754558.png') }}" style="width: 100%; height: 100%; object-fit: contain;"></div>
             <div class="service-label">বেতন</div>
         </a>
         <a href="/admin/report" class="service-item">
-            <div class="service-icon">📊</div>
+            <div class="service-icon"><img src="{{ asset('images/icons/report_icon_1780216768668.png') }}" style="width: 100%; height: 100%; object-fit: contain;"></div>
             <div class="service-label">রিপোর্ট</div>
         </a>
         <a href="/admin/projects" class="service-item">
-            <div class="service-icon">📁</div>
+            <div class="service-icon"><img src="{{ asset('images/icons/project_icon_1780216826498.png') }}" style="width: 100%; height: 100%; object-fit: contain;"></div>
             <div class="service-label">প্রজেক্ট</div>
         </a>
         <a href="/admin/invoices" class="service-item">
-            <div class="service-icon">🧾</div>
+            <div class="service-icon"><img src="{{ asset('images/icons/invoice_icon_1780216787465.png') }}" style="width: 100%; height: 100%; object-fit: contain;"></div>
             <div class="service-label">ইনভয়েস</div>
         </a>
         <a href="/admin/incomes" class="service-item">
-            <div class="service-icon">💵</div>
+            <div class="service-icon"><img src="{{ asset('images/icons/income_icon_1780216812068.png') }}" style="width: 100%; height: 100%; object-fit: contain;"></div>
             <div class="service-label">আয়</div>
         </a>
     </div>

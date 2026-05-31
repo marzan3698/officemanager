@@ -174,18 +174,18 @@
         .service-icon {
             width: 56px;
             height: 56px;
-            background: #F3F4F6;
-            border: 1px solid #E5E7EB;
-            border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 24px;
             margin-bottom: 8px;
             transition: all 0.2s;
+            border-radius: 12px;
+            overflow: hidden;
+            background: transparent;
         }
         .service-item:hover .service-icon {
-            background: #E5E7EB;
+            transform: scale(1.05);
         }
         .service-label {
             font-size: 11px;
