@@ -37,6 +37,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::post('/salary/pay-all', [AdminSalaryController::class, 'payAll']);
     Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index']);
     Route::get('/settings/general', [\App\Http\Controllers\SettingsController::class, 'general']);
+    Route::post('/settings/general', [\App\Http\Controllers\SettingsController::class, 'updateGeneral']);
     Route::post('/settings/reset-data', [\App\Http\Controllers\SettingsController::class, 'resetData']);
     Route::get('/settings/sms', [SmsSettingsController::class, 'index']);
     Route::post('/settings/sms', [SmsSettingsController::class, 'update']);

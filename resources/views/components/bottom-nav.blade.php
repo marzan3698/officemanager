@@ -7,39 +7,55 @@
         width: 100%;
         max-width: 430px;
         background: var(--surface);
-        box-shadow: 0 -1px 3px rgba(0,0,0,0.05);
+        box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
         display: flex;
         justify-content: space-around;
-        padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+        align-items: flex-end;
+        padding: 0 0 calc(8px + env(safe-area-inset-bottom)) 0;
         z-index: 100;
+        height: 64px;
+        border-top: 1px solid #F3E6ED;
     }
     .nav-item {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: flex-end;
         text-decoration: none;
         color: var(--text-secondary);
-        font-size: 12px;
-        gap: 4px;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 8px 4px;
+        min-width: 56px;
+        gap: 3px;
+        transition: color 0.2s;
     }
     .nav-item .icon {
-        width: 24px;
-        height: 24px;
-        margin-bottom: 2px;
+        width: 26px;
+        height: 26px;
         object-fit: contain;
+        transition: transform 0.2s;
+        filter: grayscale(30%) opacity(0.7);
     }
     .nav-item.active {
         color: #D42B6A;
         font-weight: 600;
     }
+    .nav-item.active .icon {
+        filter: none;
+        transform: scale(1.1);
+    }
     
-    .nav-fab-container {
-        position: relative;
+    /* FAB middle button */
+    .nav-fab-wrapper {
         display: flex;
         flex-direction: column;
         align-items: center;
-        text-decoration: none;
-        top: -20px;
+        justify-content: flex-end;
+        min-width: 72px;
+        position: relative;
+        padding-bottom: 6px;
+        margin-top: -24px;  /* lifts above nav bar */
     }
     .nav-fab {
         width: 56px;
@@ -49,21 +65,28 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        box-shadow: 0 4px 12px rgba(212, 43, 106, 0.4);
-        border: 4px solid var(--surface);
-        margin-bottom: 4px;
-        transition: transform 0.2s;
+        box-shadow: 0 4px 16px rgba(157, 28, 91, 0.45);
+        border: 3px solid var(--surface);
+        transition: transform 0.2s, box-shadow 0.2s;
+        text-decoration: none;
     }
     .nav-fab:active {
-        transform: scale(0.95);
+        transform: scale(0.93);
+        box-shadow: 0 2px 8px rgba(157, 28, 91, 0.3);
     }
     .nav-fab-label {
         font-size: 11px;
-        color: var(--text-secondary);
         font-weight: 500;
-        margin-top: -8px;
+        color: var(--text-secondary);
+        margin-top: 3px;
+        line-height: 1;
+    }
+    .nav-fab-label.active {
+        color: #D42B6A;
+        font-weight: 600;
     }
 </style>
+
 <div class="bottom-nav">
     @if(Auth::user()->role === 'admin')
         <a href="/admin/dashboard" class="nav-item {{ request()->is('admin/dashboard') ? 'active' : '' }}">
@@ -75,10 +98,12 @@
             <span>কর্মীরা</span>
         </a>
         
-        <a href="/calculator" class="nav-fab-container">
-            <div class="nav-fab"><img src="{{ asset('images/icons/accounting_icon_1780217086495.png') }}" style="width: 32px; height: 32px; object-fit: contain;"></div>
-            <div class="nav-fab-label" style="{{ request()->is('calculator') ? 'color: #D42B6A; font-weight: 600;' : '' }}">হিসাব</div>
-        </a>
+        <div class="nav-fab-wrapper">
+            <a href="/calculator" class="nav-fab">
+                <img src="{{ asset('images/icons/accounting_icon_1780217086495.png') }}" style="width: 30px; height: 30px; object-fit: contain;">
+            </a>
+            <span class="nav-fab-label {{ request()->is('calculator') ? 'active' : '' }}">হিসাব</span>
+        </div>
 
         <a href="/admin/transactions" class="nav-item {{ request()->is('admin/transactions*') ? 'active' : '' }}">
             <img src="{{ asset('images/icons/transaction_icon_1780216715077.png') }}" class="icon">
@@ -98,10 +123,12 @@
             <span>লেনদেন</span>
         </a>
         
-        <a href="/calculator" class="nav-fab-container">
-            <div class="nav-fab"><img src="{{ asset('images/icons/accounting_icon_1780217086495.png') }}" style="width: 32px; height: 32px; object-fit: contain;"></div>
-            <div class="nav-fab-label" style="{{ request()->is('calculator') ? 'color: #D42B6A; font-weight: 600;' : '' }}">হিসাব</div>
-        </a>
+        <div class="nav-fab-wrapper">
+            <a href="/calculator" class="nav-fab">
+                <img src="{{ asset('images/icons/accounting_icon_1780217086495.png') }}" style="width: 30px; height: 30px; object-fit: contain;">
+            </a>
+            <span class="nav-fab-label {{ request()->is('calculator') ? 'active' : '' }}">হিসাব</span>
+        </div>
 
         <a href="/employee/invoices" class="nav-item {{ request()->is('employee/invoices*') ? 'active' : '' }}">
             <img src="{{ asset('images/icons/invoice_icon_1780216787465.png') }}" class="icon">

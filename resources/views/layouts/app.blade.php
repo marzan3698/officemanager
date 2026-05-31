@@ -3,19 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>{{ config('app.name', 'অফিস ম্যানেজার') }}</title>
+    @php $gs = \App\Models\GeneralSetting::first(); @endphp
+    <title>{{ $gs->site_name ?? config('app.name', 'অফিস ম্যানেজার') }}</title>
     
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#1A56DB">
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <meta name="theme-color" content="#9D1C5B">
+    @if($gs && $gs->favicon)
+        <link rel="icon" href="{{ asset('storage/' . $gs->favicon) }}" type="image/png">
+        <link rel="apple-touch-icon" href="{{ asset('storage/' . $gs->favicon) }}">
+    @else
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    @endif
     
     <!-- Tiro Bangla Font -->
     <link href="https://fonts.maateen.me/tiro-bangla/font.css" rel="stylesheet">
     
     <style>
         :root {
-            --primary: #1A56DB;
+            --primary: #D42B6A;
+            --primary-dark: #9D1C5B;
             --secondary: #0E9F6E;
             --accent: #FF5A1F;
             --bg: #F9FAFB;
