@@ -72,27 +72,27 @@
 
     <div class="section-title">কুইক ফিচারসমূহ</div>
     <div class="quick-features-scroll mb-4">
-        <div class="quick-feature-card">
+        <a href="/admin/employees" class="quick-feature-card" style="text-decoration: none; color: inherit;">
             <img src="{{ asset('images/icons/employee_icon_1780216702010.png') }}" style="width: 32px; height: 32px; object-fit: contain;">
             <div>
                 <div style="font-size: 12px; color: var(--text-secondary);">মোট কর্মী</div>
                 <div style="font-size: 16px; font-weight: 600;">{{ $totalEmployees }} জন</div>
             </div>
-        </div>
-        <div class="quick-feature-card">
+        </a>
+        <a href="/admin/tasks" class="quick-feature-card" style="text-decoration: none; color: inherit;">
             <img src="{{ asset('images/icons/pending_icon_1780217054686.png') }}" style="width: 32px; height: 32px; object-fit: contain;">
             <div>
                 <div style="font-size: 12px; color: var(--text-secondary);">চলমান কাজ</div>
                 <div style="font-size: 16px; font-weight: 600;">{{ $pendingTasksCount }} টি</div>
             </div>
-        </div>
-        <div class="quick-feature-card">
+        </a>
+        <a href="/admin/tasks" class="quick-feature-card" style="text-decoration: none; color: inherit;">
             <img src="{{ asset('images/icons/task_icon_1780216728764.png') }}" style="width: 32px; height: 32px; object-fit: contain;">
             <div>
                 <div style="font-size: 12px; color: var(--text-secondary);">সম্পন্ন কাজ</div>
                 <div style="font-size: 16px; font-weight: 600;">{{ $completedTasks }} টি</div>
             </div>
-        </div>
+        </a>
     </div>
 
     @if($pendingExpenses->count() > 0)

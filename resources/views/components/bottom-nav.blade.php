@@ -69,6 +69,7 @@
         border: 3px solid var(--surface);
         transition: transform 0.2s, box-shadow 0.2s;
         text-decoration: none;
+        overflow: hidden;
     }
     .nav-fab:active {
         transform: scale(0.93);
@@ -100,7 +101,7 @@
         
         <div class="nav-fab-wrapper">
             <a href="/calculator" class="nav-fab">
-                <img src="{{ asset('images/icons/accounting_icon_1780217086495.png') }}" style="width: 30px; height: 30px; object-fit: contain;">
+                <img src="{{ asset('images/icons/accounting_icon_1780217086495.png') }}" style="width: 100%; height: 100%; object-fit: cover;">
             </a>
             <span class="nav-fab-label {{ request()->is('calculator') ? 'active' : '' }}">হিসাব</span>
         </div>
@@ -125,7 +126,7 @@
         
         <div class="nav-fab-wrapper">
             <a href="/calculator" class="nav-fab">
-                <img src="{{ asset('images/icons/accounting_icon_1780217086495.png') }}" style="width: 30px; height: 30px; object-fit: contain;">
+                <img src="{{ asset('images/icons/accounting_icon_1780217086495.png') }}" style="width: 100%; height: 100%; object-fit: cover;">
             </a>
             <span class="nav-fab-label {{ request()->is('calculator') ? 'active' : '' }}">হিসাব</span>
         </div>

@@ -131,13 +131,13 @@
             <div style="font-size: 24px;">📊</div>
             <div style="font-size: 14px; font-weight: 500; color: var(--text-primary);">রিপোর্ট</div>
         </a>
-        <div class="quick-feature-card">
+        <a href="/employee/tasks" class="quick-feature-card" style="text-decoration: none; color: inherit;">
             <div style="font-size: 20px;">📌</div>
             <div>
                 <div style="font-size: 12px; color: var(--text-secondary);">অপেক্ষমান কাজ</div>
                 <div style="font-size: 16px; font-weight: 600;">{{ $activeTasksCount }} টি</div>
             </div>
-        </div>
+        </a>
     </div>
 
     @if($projects && $projects->count() > 0)
