@@ -22,7 +22,7 @@ class EmployeeTaskController extends Controller
 
     public function updateStatus(Request $request, Task $task)
     {
-        if ($task->employee_id !== auth()->id()) {
+        if ($task->employee_id != auth()->id()) {
             abort(403);
         }
         
