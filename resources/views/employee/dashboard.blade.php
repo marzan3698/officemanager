@@ -76,6 +76,21 @@
         </div>
     </div>
 
+    @if($projects && $projects->count() > 0)
+        <div class="section-title">আমার প্রজেক্টসমূহ</div>
+        <div class="quick-features-scroll mb-4" style="gap: 12px;">
+            @foreach($projects as $project)
+                <div class="quick-feature-card" style="min-width: 150px; padding: 12px; display: block;">
+                    <div style="font-size: 20px; margin-bottom: 8px;">📁</div>
+                    <div style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">{{ $project->name }}</div>
+                    @if($project->description)
+                        <div style="font-size: 11px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ Str::limit($project->description, 30) }}</div>
+                    @endif
+                </div>
+            @endforeach
+        </div>
+    @endif
+
     <div class="d-flex justify-between align-center mb-2">
         <div class="section-title" style="margin-bottom: 0;">সাম্প্রতিক কাজ</div>
         <a href="/employee/tasks" style="font-size: 13px;">সব দেখুন ➔</a>

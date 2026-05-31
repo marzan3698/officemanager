@@ -41,6 +41,11 @@
             <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
                 {{ $task->description }}
             </div>
+            @if($task->project)
+                <div style="margin-bottom: 8px;">
+                    <span style="font-size: 11px; font-weight: 500; background: var(--primary); color: white; padding: 2px 6px; border-radius: 10px;">📁 {{ $task->project->name }}</span>
+                </div>
+            @endif
             <div class="d-flex justify-between align-center" style="font-size: 12px;">
                 <div style="color: var(--primary);">👤 {{ optional($task->employee)->name }}</div>
                 <div style="color: var(--text-secondary);">📅 {{ $task->due_date ? $task->due_date->format('d M, Y') : '-' }}</div>

@@ -10,10 +10,11 @@ class AdminIncomeController extends Controller
 {
     public function index()
     {
-        $incomes = CompanyIncome::with('employee')->latest('income_date')->get();
+        $incomes = CompanyIncome::with(['employee', 'project'])->latest('income_date')->get();
         $employees = User::where('role', 'employee')->get();
+        $projects = \App\Models\Project::where('status', 'active')->get();
         
-        return view('admin.incomes.index', compact('incomes', 'employees'));
+        return view('admin.incomes.index', compact('incomes', 'employees', 'projects'));
     }
 
     public function store(Request $request)
@@ -22,7 +23,8 @@ class AdminIncomeController extends Controller
             'title' => 'required|string',
             'amount' => 'required|numeric|min:0',
             'income_date' => 'required|date',
-            'employee_id' => 'nullable|exists:users,id'
+            'employee_id' => 'nullable|exists:users,id',
+            'project_id' => 'nullable|exists:projects,id'
         ]);
         
         $validated['created_by'] = auth()->id();

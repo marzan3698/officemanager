@@ -40,4 +40,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(SalaryLog::class, 'employee_id');
     }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'employee_project', 'employee_id', 'project_id')->withTimestamps();
+    }
 }

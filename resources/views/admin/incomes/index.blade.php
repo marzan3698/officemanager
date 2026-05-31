@@ -30,6 +30,13 @@
                     <option value="{{ $emp->id }}">{{ $emp->name }}</option>
                 @endforeach
             </select>
+            
+            <select name="project_id" style="margin-bottom: 16px;">
+                <option value="">প্রজেক্ট নির্বাচন করুন (ঐচ্ছিক)</option>
+                @foreach($projects as $project)
+                    <option value="{{ $project->id }}">{{ $project->name }}</option>
+                @endforeach
+            </select>
 
             <button type="submit" class="btn btn-primary">যোগ করুন</button>
         </form>
@@ -44,6 +51,9 @@
                         {{ $income->title }}
                         @if($income->employee)
                             <span style="font-size: 11px; background: var(--primary); color: white; padding: 2px 6px; border-radius: 10px; margin-left: 4px;">{{ $income->employee->name }}</span>
+                        @endif
+                        @if($income->project)
+                            <span style="font-size: 11px; background: var(--primary); color: white; padding: 2px 6px; border-radius: 10px; margin-left: 4px;">📁 {{ $income->project->name }}</span>
                         @endif
                     </div>
                     <div style="font-size: 12px; color: var(--text-secondary);">{{ $income->income_date->format('d M, Y') }}</div>

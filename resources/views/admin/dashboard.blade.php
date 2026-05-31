@@ -64,6 +64,10 @@
             <div class="service-icon">💵</div>
             <div class="service-label">আয়</div>
         </a>
+        <a href="/admin/projects" class="service-item">
+            <div class="service-icon">📁</div>
+            <div class="service-label">প্রজেক্ট</div>
+        </a>
     </div>
 
     <div class="section-title">কুইক ফিচারসমূহ</div>

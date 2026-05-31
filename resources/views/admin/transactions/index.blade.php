@@ -23,6 +23,11 @@
                     @if($transaction->note)
                         <div style="font-size: 12px; margin-top: 4px;">{{ $transaction->note }}</div>
                     @endif
+                    @if($transaction->project)
+                        <div style="margin-top: 4px;">
+                            <span style="font-size: 11px; font-weight: 500; background: var(--primary); color: white; padding: 2px 6px; border-radius: 10px;">📁 {{ $transaction->project->name }}</span>
+                        </div>
+                    @endif
                     @if($transaction->invoice_file)
                         <div style="margin-top: 8px;">
                             <a href="{{ asset('storage/' . $transaction->invoice_file) }}" target="_blank" style="font-size: 12px; color: var(--primary); text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">

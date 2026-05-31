@@ -79,6 +79,12 @@
                     {{ $task->description }}
                 </div>
                 
+                @if($task->project)
+                    <div style="margin-bottom: 12px;">
+                        <span style="font-size: 11px; font-weight: 500; background: var(--primary); color: white; padding: 2px 6px; border-radius: 10px;">📁 {{ $task->project->name }}</span>
+                    </div>
+                @endif
+                
                 <div class="d-flex justify-between align-center pt-2" style="border-top: 1px solid var(--border);">
                     <div style="font-size: 12px; color: var(--text-secondary);">
                         শেষ তারিখ: {{ $task->due_date ? $task->due_date->format('d M, Y') : '-' }}

@@ -29,11 +29,19 @@
                 @endforeach
             </select>
             
-            <label>ধরন</label>
+            <label>পেমেন্ট ধরণ</label>
             <select name="type" required>
-                <option value="payment">পেমেন্ট</option>
-                <option value="deduction">কর্তন</option>
-                <option value="bonus">বোনাস</option>
+                <option value="payment">বেতন/পেমেন্ট</option>
+                <option value="deduction">কর্তন/জরিমানা</option>
+                <option value="bonus">বোনাস/ইনসেনটিভ</option>
+            </select>
+            
+            <label>প্রজেক্ট (ঐচ্ছিক)</label>
+            <select name="project_id">
+                <option value="">নির্বাচন করুন</option>
+                @foreach($projects as $project)
+                    <option value="{{ $project->id }}">{{ $project->name }}</option>
+                @endforeach
             </select>
             
             <label>পরিমাণ (টাকা)</label>

@@ -24,4 +24,9 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
+    }
 }

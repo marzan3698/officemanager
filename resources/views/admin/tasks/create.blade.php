@@ -32,6 +32,14 @@
             <label>শিরোনাম</label>
             <input type="text" name="title" required>
             
+            <label>প্রজেক্ট (ঐচ্ছিক)</label>
+            <select name="project_id" style="margin-bottom: 16px;">
+                <option value="">নির্বাচন করুন</option>
+                @foreach($projects as $project)
+                    <option value="{{ $project->id }}">{{ $project->name }}</option>
+                @endforeach
+            </select>
+            
             <label>বিবরণ</label>
             <textarea name="description" rows="3"></textarea>
             

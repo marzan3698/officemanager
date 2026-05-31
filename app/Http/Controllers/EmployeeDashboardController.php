@@ -27,6 +27,8 @@ class EmployeeDashboardController extends Controller
             ->latest()
             ->get();
             
-        return view('employee.dashboard', compact('employee', 'salary', 'recentTransactions', 'activeTasksCount', 'pendingTasks'));
+        $projects = $employee->projects()->where('status', 'active')->get();
+            
+        return view('employee.dashboard', compact('employee', 'salary', 'recentTransactions', 'activeTasksCount', 'pendingTasks', 'projects'));
     }
 }

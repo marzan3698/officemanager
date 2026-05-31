@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\Project;
 
 class AdminTransactionController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::with('employee')->latest('transaction_date')->get();
+        $transactions = Transaction::with(['employee', 'project'])->latest('transaction_date')->get();
         $totalTransactions = $transactions->count();
         return view('admin.transactions.index', compact('transactions', 'totalTransactions'));
     }
@@ -18,7 +19,8 @@ class AdminTransactionController extends Controller
     public function create()
     {
         $employees = User::where('role', 'employee')->where('is_active', true)->get();
-        return view('admin.transactions.create', compact('employees'));
+        $projects = Project::where('status', 'active')->get();
+        return view('admin.transactions.create', compact('employees', 'projects'));
     }
 
     public function show(Transaction $transaction)
@@ -35,6 +37,7 @@ class AdminTransactionController extends Controller
             'amount' => 'required|numeric|min:0',
             'transaction_date' => 'required|date',
             'note' => 'nullable|string',
+            'project_id' => 'nullable|exists:projects,id',
             'invoice_file' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
         ]);
         
@@ -53,7 +56,8 @@ class AdminTransactionController extends Controller
     public function edit(Transaction $transaction)
     {
         $employees = User::where('role', 'employee')->where('is_active', true)->get();
-        return view('admin.transactions.edit', compact('transaction', 'employees'));
+        $projects = Project::where('status', 'active')->get();
+        return view('admin.transactions.edit', compact('transaction', 'employees', 'projects'));
     }
 
     public function update(Request $request, Transaction $transaction)

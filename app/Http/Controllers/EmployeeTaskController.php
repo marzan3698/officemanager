@@ -10,7 +10,7 @@ class EmployeeTaskController extends Controller
     public function index(Request $request)
     {
         $status = $request->query('status', 'all');
-        $query = Task::where('employee_id', auth()->id())->latest('due_date');
+        $query = Task::with('project')->where('employee_id', auth()->id())->latest('due_date');
         
         if ($status && $status !== 'all') {
             $query->where('status', $status);

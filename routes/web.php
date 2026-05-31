@@ -46,6 +46,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/incomes', [App\Http\Controllers\AdminIncomeController::class, 'index']);
     Route::post('/incomes', [App\Http\Controllers\AdminIncomeController::class, 'store']);
     
+    // Projects
+    Route::get('/projects', [App\Http\Controllers\AdminProjectController::class, 'index']);
+    Route::post('/projects', [App\Http\Controllers\AdminProjectController::class, 'store']);
+    
     // Invoices
     Route::get('/invoices', [\App\Http\Controllers\AdminInvoiceController::class, 'index']);
     Route::get('/invoices/{invoice}', [\App\Http\Controllers\AdminInvoiceController::class, 'show']);
