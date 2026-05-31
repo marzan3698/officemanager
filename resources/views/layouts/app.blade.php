@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{{ config('app.name', 'অফিস ম্যানেজার') }}</title>
+    
+    <!-- Google Fonts: Hind Siliguri -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1A56DB;
+            --secondary: #0E9F6E;
+            --accent: #FF5A1F;
+            --bg: #F9FAFB;
+            --surface: #FFFFFF;
+            --text-primary: #111827;
+            --text-secondary: #6B7280;
+            --border: #E5E7EB;
+            --success: #0E9F6E;
+            --warning: #FF5A1F;
+            --danger: #E02424;
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+        }
+
+        .app-container {
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background-color: var(--bg);
+            position: relative;
+            padding-bottom: 70px; /* space for bottom nav */
+            box-shadow: var(--shadow-md);
+            overflow-x: hidden;
+        }
+
+        .header {
+            padding: 16px;
+            background: var(--surface);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            color: var(--text-primary);
+        }
+        
+        .content {
+            padding: 16px;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+        }
+
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+        .alert-error {
+            background-color: #FDE8E8;
+            color: var(--danger);
+        }
+        .alert-success {
+            background-color: #DEF7EC;
+            color: var(--success);
+        }
+        
+        .d-flex { display: flex; }
+        .justify-between { justify-content: space-between; }
+        .align-center { align-items: center; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mt-4 { margin-top: 16px; }
+
+        /* Dashboard Redesign Styles */
+        .dashboard-header {
+            background: linear-gradient(180deg, #9D1C5B 0%, #D42B6A 100%);
+            color: white;
+            padding: 24px 20px 48px 20px; /* Extra bottom padding for overlap */
+            border-radius: 0 0 16px 16px;
+        }
+        .dashboard-header h1 {
+            color: white;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .dashboard-overlap-card {
+            background: var(--surface);
+            border-radius: 24px 24px 0 0;
+            margin-top: -32px;
+            padding: 24px 16px;
+            min-height: calc(100vh - 120px);
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
+        }
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px 8px;
+            margin-bottom: 24px;
+        }
+        .service-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            background: #F3F4F6;
+            border: 1px solid #E5E7EB;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+        .service-item:hover .service-icon {
+            background: #E5E7EB;
+        }
+        .service-label {
+            font-size: 11px;
+            line-height: 1.2;
+            color: #374151;
+            font-weight: 500;
+        }
+        .quick-features-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 12px;
+            padding-bottom: 12px;
+            scrollbar-width: none;
+        }
+        .quick-features-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .quick-feature-card {
+            flex: 0 0 auto;
+            background: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 160px;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body style="margin: 0; background-color: var(--surface);">
+    <div class="app-container">
+        @yield('content')
+        
+        @if(Auth::check())
+            @include('components.bottom-nav')
+        @endif
+    </div>
+</body>
+</html>
