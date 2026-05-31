@@ -25,11 +25,22 @@
             
             <div style="margin-bottom: 16px;">
                 <label style="font-size: 14px; font-weight: 500; color: var(--text-secondary); display: block; margin-bottom: 8px;">কর্মীদের এসাইন করুন (ঐচ্ছিক):</label>
-                <div style="max-height: 150px; overflow-y: auto; background: var(--background); padding: 8px; border-radius: 8px; border: 1px solid var(--border);">
+                
+                <input type="text" id="employeeSearch" placeholder="কর্মী খুঁজুন..." style="margin-bottom: 8px; padding: 8px; border-radius: 8px; border: 1px solid var(--border); width: 100%; box-sizing: border-box; font-size: 13px;" onkeyup="filterEmployees()">
+                
+                <div id="employeeGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; max-height: 250px; overflow-y: auto; background: var(--background); padding: 10px; border-radius: 8px; border: 1px solid var(--border);">
                     @foreach($employees as $emp)
-                        <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                            <input type="checkbox" name="employee_ids[]" value="{{ $emp->id }}">
-                            <span style="font-size: 14px;">{{ $emp->name }}</span>
+                        <label class="employee-card" style="display: flex; flex-direction: column; align-items: center; gap: 8px; background: white; padding: 10px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; text-align: center; position: relative; transition: 0.2s;">
+                            <input type="checkbox" name="employee_ids[]" value="{{ $emp->id }}" style="position: absolute; top: 8px; left: 8px; margin: 0; transform: scale(1.1); cursor: pointer;">
+                            
+                            @if($emp->profile_image)
+                                <img src="{{ asset('storage/' . $emp->profile_image) }}" alt="Profile" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                            @else
+                                <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px;">
+                                    {{ mb_substr($emp->name, 0, 1) }}
+                                </div>
+                            @endif
+                            <span class="employee-name" style="font-size: 12px; font-weight: 500;">{{ $emp->name }}</span>
                         </label>
                     @endforeach
                 </div>
@@ -76,4 +87,20 @@
         </div>
     @endif
 </div>
+
+<script>
+function filterEmployees() {
+    let input = document.getElementById('employeeSearch').value.toLowerCase();
+    let cards = document.querySelectorAll('.employee-card');
+    
+    cards.forEach(card => {
+        let name = card.querySelector('.employee-name').innerText.toLowerCase();
+        if (name.includes(input)) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+</script>
 @endsection
