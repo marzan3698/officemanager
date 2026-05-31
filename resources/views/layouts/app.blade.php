@@ -10,10 +10,8 @@
     <meta name="theme-color" content="#1A56DB">
     <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
     
-    <!-- Google Fonts: Hind Siliguri -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tiro Bangla Font -->
+    <link href="https://fonts.maateen.me/tiro-bangla/font.css" rel="stylesheet">
     
     <style>
         :root {
@@ -39,7 +37,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Hind Siliguri', sans-serif;
+            font-family: 'Tiro Bangla', sans-serif;
         }
 
         body {
