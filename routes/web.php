@@ -42,6 +42,11 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::patch('/expenses/{expense}/status', [App\Http\Controllers\AdminExpenseController::class, 'update']);
     Route::get('/report', [App\Http\Controllers\AdminReportController::class, 'index']);
     Route::post('/report/income', [App\Http\Controllers\AdminReportController::class, 'storeIncome']);
+    
+    // Invoices
+    Route::get('/invoices', [\App\Http\Controllers\AdminInvoiceController::class, 'index']);
+    Route::get('/invoices/{invoice}', [\App\Http\Controllers\AdminInvoiceController::class, 'show']);
+    Route::post('/invoices/{invoice}/pay', [\App\Http\Controllers\AdminInvoiceController::class, 'pay']);
 });
 
 // Employee routes (middleware: auth, employee)
@@ -53,4 +58,9 @@ Route::prefix('employee')->middleware(['auth', 'employee'])->group(function () {
     Route::get('/profile', [EmployeeProfileController::class, 'index']);
     Route::resource('/expenses', App\Http\Controllers\EmployeeExpenseController::class)->only(['index', 'create', 'store']);
     Route::get('/report', [App\Http\Controllers\EmployeeReportController::class, 'index']);
+    
+    // Invoices
+    Route::get('/invoices', [\App\Http\Controllers\EmployeeInvoiceController::class, 'index']);
+    Route::get('/invoices/create', [\App\Http\Controllers\EmployeeInvoiceController::class, 'create']);
+    Route::post('/invoices', [\App\Http\Controllers\EmployeeInvoiceController::class, 'store']);
 });

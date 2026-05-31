@@ -47,6 +47,10 @@
             <div class="service-icon">✅</div>
             <div class="service-label">আমার কাজ</div>
         </a>
+        <a href="/employee/invoices" class="service-item">
+            <div class="service-icon">🧾</div>
+            <div class="service-label">ইনভয়েস</div>
+        </a>
         <a href="/employee/profile" class="service-item">
             <div class="service-icon">👤</div>
             <div class="service-label">প্রোফাইল</div>
@@ -55,7 +59,7 @@
 
     <div class="section-title">কুইক ফিচারসমূহ</div>
     <div class="quick-features-scroll mb-4">
-        <a href="/employee/expenses/create" class="quick-feature-card" style="text-decoration: none;">
+        <a href="/employee/invoices/create" class="quick-feature-card" style="text-decoration: none;">
             <div style="font-size: 24px;">🧾</div>
             <div style="font-size: 14px; font-weight: 500; color: var(--text-primary);">নতুন ইনভয়েস</div>
         </a>
