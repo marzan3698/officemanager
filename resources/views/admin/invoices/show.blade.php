@@ -62,14 +62,31 @@
         </div>
 
         @if($invoice->status !== 'paid')
-            <form method="POST" action="/admin/invoices/{{ $invoice->id }}/pay" onsubmit="return confirm('আপনি কি নিশ্চিত যে এই ইনভয়েসটি পে করা হয়েছে? এটি কোম্পানির খরচে (Expense) যুক্ত হবে।')">
+            <form method="POST" action="/admin/invoices/{{ $invoice->id }}/pay" enctype="multipart/form-data" onsubmit="return confirm('আপনি কি নিশ্চিত যে এই ইনভয়েসটি পে করা হয়েছে? এটি কোম্পানির খরচে (Expense) যুক্ত হবে।')">
                 @csrf
+                <div style="margin-bottom: 16px;">
+                    <label style="font-size: 13px; color: var(--text-secondary); display: block; margin-bottom: 4px;">পেমেন্ট রেফারেন্স (Txn ID) - ঐচ্ছিক</label>
+                    <input type="text" name="payment_ref" placeholder="TrxID..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #E2E8F0; margin-bottom: 12px; box-sizing: border-box;">
+                    
+                    <label style="font-size: 13px; color: var(--text-secondary); display: block; margin-bottom: 4px;">প্রুফ স্ক্রিনশট - ঐচ্ছিক</label>
+                    <input type="file" name="proof_file" accept="image/*,.pdf" style="width: 100%; font-size: 13px;">
+                </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 16px; padding: 14px; border-radius: 12px; font-weight: 600;">পে করুন</button>
             </form>
         @else
             <div style="text-align: center; color: var(--success); font-weight: 600; background: #DEF7EC; padding: 12px; border-radius: 12px; border: 1px solid #31C48D;">
                 ✅ পেমেন্ট সম্পূর্ণ হয়েছে ({{ $invoice->paid_at->format('d M, Y') }})
             </div>
+            @if($invoice->payment_ref)
+                <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #E2E8F0; font-size: 13px;">
+                    <strong>Txn ID:</strong> {{ $invoice->payment_ref }}
+                </div>
+            @endif
+            @if($invoice->proof_file)
+                <div style="margin-top: 8px; font-size: 13px;">
+                    <a href="{{ asset('storage/' . $invoice->proof_file) }}" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">📄 প্রুফ দেখুন</a>
+                </div>
+            @endif
         @endif
     </x-card>
 </div>

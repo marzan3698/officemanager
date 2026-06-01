@@ -13,7 +13,9 @@ class Invoice extends Model
         'items',
         'total_amount',
         'status',
-        'paid_at'
+        'paid_at',
+        'payment_ref',
+        'proof_file'
     ];
 
     protected $casts = [
