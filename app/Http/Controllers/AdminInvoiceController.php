@@ -40,6 +40,16 @@ class AdminInvoiceController extends Controller
             'payment_ref' => 'Invoice Payment',
         ]);
 
-        return back()->with('success', 'ইনভয়েস পেইড হিসেবে মার্ক করা হয়েছে এবং কোম্পানির খরচে যুক্ত করা হয়েছে');
+        // Add to employee transactions
+        \App\Models\Transaction::create([
+            'employee_id' => $invoice->employee_id,
+            'type' => 'payment',
+            'amount' => $invoice->total_amount,
+            'note' => 'ইনভয়েস পেমেন্ট: #' . $invoice->id,
+            'transaction_date' => now(),
+            'created_by' => auth()->id(),
+        ]);
+
+        return back()->with('success', 'ইনভয়েস পেইড হিসেবে মার্ক করা হয়েছে এবং ট্রানজেকশন/খরচে যুক্ত করা হয়েছে');
     }
 }
